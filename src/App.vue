@@ -1,28 +1,24 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div id="app">
+		<calendar-renderless>
+			<template slot-scope="{ months }">
+				<calendar v-for="(month, monthIndex) in months" :key="monthIndex" :month="month"></calendar>
+			</template>
+		</calendar-renderless>
+	</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+	import Calendar from "./components/Calendar.vue";
+	import CalendarRenderless from "./components/CalendarRenderless.vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	export default {
+		name: "App",
+		components: {
+			Calendar,
+			CalendarRenderless
+		}
+	};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style> 
