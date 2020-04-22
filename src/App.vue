@@ -1,24 +1,25 @@
 <template>
-	<div id="app">
-		<calendar-renderless>
-			<template slot-scope="{ months }">
-				<calendar v-for="(month, monthIndex) in months" :key="monthIndex" :month="month"></calendar>
-			</template>
-		</calendar-renderless>
+	<div id="app" @click="weekStartsOn = 5">
+		<v-simple-calendar :months="[new Date()]" :weekStartsOn="weekStartsOn"></v-simple-calendar>
 	</div>
 </template>
 
 <script>
-	import Calendar from "./components/Calendar.vue";
-	import CalendarRenderless from "./components/CalendarRenderless.vue";
-
+	import VSimpleCalendar from './VSimpleCalendar'
 	export default {
-		name: "App",
 		components: {
-			Calendar,
-			CalendarRenderless
+			VSimpleCalendar
+		},
+		data() {
+			return {
+				weekStartsOn: 1
+			}
 		}
-	};
+	}
 </script>
 
-<style></style> 
+<style>
+	#app {
+		background: green;
+	}
+</style> 
