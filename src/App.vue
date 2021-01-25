@@ -1,25 +1,35 @@
 <template>
-	<div id="app" @click="weekStartsOn = 5">
-		<v-simple-calendar :months="[new Date()]" :weekStartsOn="weekStartsOn"></v-simple-calendar>
-	</div>
+  <div id="app">
+    <v-simple-calendar
+      :type="'single'"
+      :weekdayFormat="'cccccc'"
+      :value="selectedRange"
+      @change="changeValue"
+    ></v-simple-calendar>
+  </div>
 </template>
 
 <script>
-	import VSimpleCalendar from './VSimpleCalendar'
-	export default {
-		components: {
-			VSimpleCalendar
-		},
-		data() {
-			return {
-				weekStartsOn: 1
-			}
-		}
-	}
+import VSimpleCalendar from "./VSimpleCalendar";
+export default {
+  components: {
+    VSimpleCalendar,
+  },
+  data() {
+    return {
+      selectedRange: [new Date()],
+    };
+  },
+  methods: {
+    changeValue(value) {
+      this.selectedRange = value;
+    },
+  },
+};
 </script>
 
 <style>
-	#app {
-		background: green;
-	}
-</style> 
+#app {
+  background: green;
+}
+</style>
