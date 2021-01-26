@@ -51,10 +51,10 @@
 import { add, eachMonthOfInterval, getYear, eachYearOfInterval, endOfYear } from 'date-fns'
 import { last, first, isArray, reverse } from 'lodash-es'
 import en from 'date-fns/locale/en-US'
-import Calendar from './components/calendar.vue'
-import SelectBar from './components/select-bar'
-import YearSelect from './components/year-select.vue'
-import MonthSelect from './components/month-select.vue'
+import Calendar from '@/components/calendar.vue'
+import SelectBar from '@/components/select-bar'
+import YearSelect from '@/components/year-select.vue'
+import MonthSelect from '@/components/month-select.vue'
 
 export default {
 	name: 'vue-simple-calendar',
