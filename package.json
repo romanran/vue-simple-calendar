@@ -2,7 +2,7 @@
   "name": "@romanran/vue-simple-calendar",
   "version": "1.0.3",
   "private": false,
-  "main": "./src/v-simple-calendar.vue",
+  "main": "dist/vue-simple-calendar.umd.min.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "npm run serve",

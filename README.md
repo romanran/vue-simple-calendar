@@ -6,7 +6,7 @@
 A simple vue calendar component. Base for further development and styling.
   
 
-![License](https://img.shields.io/github/license/romanran/vue-simple-calendar)![enter image description here](https://img.shields.io/depfu/romanran/vue-simple-calendar)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/romanran/vue-simple-calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/romanran/vue-simple-calendar/?branch=master)![Minzp size](https://img.shields.io/bundlephobia/min/@romanran/vue-simple-calendar?style=plastic)
+![License](https://img.shields.io/github/license/romanran/vue-simple-calendar)![enter image description here](https://img.shields.io/depfu/romanran/vue-simple-calendar)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/romanran/vue-simple-calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/romanran/vue-simple-calendar/?branch=master)![Minzip size](https://img.shields.io/bundlephobia/min/@romanran/vue-simple-calendar?style=flat)
 
 ## Dependencies
 
