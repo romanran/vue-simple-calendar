@@ -1,6 +1,6 @@
 {
   "name": "@romanran/vue-simple-calendar",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": false,
   "main": "./src/v-simple-calendar.vue",
   "scripts": {
