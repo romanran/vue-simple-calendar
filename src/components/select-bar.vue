@@ -1,12 +1,13 @@
 <template>
 	<div class="vcs-select-bar" :class="`vcs-${selectionType}`">
 		<div class="vcs-select-bar__arrow vcs-left" @click.prevent.stop="arrowClick(-1)">
-			<icon url="//images2.r.pl/r-pl/svg/arrow-left.svg" />
+			<slot name="arrow-left">←</slot>
 		</div>
 
 		<template v-if="selectionType === 'year'">
 			<div class="vcs-select-bar__date">
-				<span class="vcs-select-bar__year">{{ formatYear(years[0]) }} -</span>
+				<span class="vcs-select-bar__year">{{ formatYear(years[0]) }}</span>
+				<span> - </span>
 				<span class="vcs-select-bar__year">{{ formatYear(nextDecade) }}</span>
 			</div>
 		</template>
@@ -19,16 +20,17 @@
 
 		<template v-if="selectionType === 'date'">
 			<div class="vcs-select-bar__date">
-				<span class="vcs-select-bar__month" @click="$emit('change-type', 'month')">{{ formatMonth(currentDate) }}</span
-				><span class="vcs-select-bar__year" @click="$emit('change-type', 'year')">{{ formatYear(currentDate) }}</span>
+				<span class="vcs-select-bar__month" @click="type === 'single' && $emit('change-type', 'month')">{{ formatMonth(currentDate) }}</span
+				><span class="vcs-select-bar__year" @click="type === 'single' && $emit('change-type', 'year')">{{ formatYear(currentDate) }}</span>
 			</div>
 			<div class="vcs-select-bar__date vcs-second">
+				<span class="vcs-select-bar__month">{{ formatMonth(nextMonth) }}</span>
 				<span class="vcs-select-bar__year">{{ formatYear(nextMonth) }}</span>
 			</div>
 		</template>
 
 		<div class="vcs-select-bar__arrow right" @click.prevent.stop="arrowClick(1)">
-			<icon url="//images2.r.pl/r-pl/svg/arrow-right.svg" />
+			<slot name="arrow-right">→</slot>
 		</div>
 	</div>
 </template>
@@ -44,6 +46,7 @@ export default {
 		locale: Object,
 		selectionType: String,
 		years: Array,
+		type: String,
 	},
 	computed: {
 		nextDecade() {
@@ -80,7 +83,7 @@ export default {
 .vcs-select-bar__date {
 	width: 100%;
 	text-align: center;
-	&.vcs-second {
+	.vcs-single &.vcs-second {
 		display: none;
 	}
 	.vcs-year & {

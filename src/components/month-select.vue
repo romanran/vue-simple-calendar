@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import * as date from 'date-fns'
+import { format, isSameMonth } from 'date-fns'
 export default {
 	props: {
 		months: Array,
@@ -36,10 +36,10 @@ export default {
 	},
 	methods: {
 		formatMonth(month) {
-			return date.format(month, this.calendarMonthFormat, { locale: this.locale })
+			return format(month, this.calendarMonthFormat, { locale: this.locale })
 		},
 		checkIfCurrentMonth(month) {
-			return date.isSameMonth(month, this.value)
+			return isSameMonth(month, this.value)
 		},
 	},
 }
@@ -48,6 +48,10 @@ export default {
 <style lang="scss">
 .vcs-month-select__month {
 	padding: 20px;
+	cursor: pointer;
+	&:hover {
+		background: lightcyan;
+	}
 	&.selected {
 		background: gold;
 	}

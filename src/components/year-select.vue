@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import * as date from 'date-fns'
+import { getYear, isSameYear } from 'date-fns'
 export default {
 	props: {
 		years: Array,
@@ -34,10 +34,10 @@ export default {
 	},
 	methods: {
 		formatYear(year) {
-			return date.getYear(year)
+			return getYear(year)
 		},
 		checkIfCurrentYear(year) {
-			return date.isSameYear(year, this.value)
+			return isSameYear(year, this.value)
 		},
 	},
 }
@@ -46,6 +46,10 @@ export default {
 <style lang="scss">
 .vcs-year-select__year {
 	padding: 20px;
+	cursor: pointer;
+	&:hover {
+		background: lightcyan;
+	}
 	&.selected {
 		background: gold;
 	}

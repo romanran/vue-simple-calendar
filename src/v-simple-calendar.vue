@@ -3,13 +3,17 @@
 		<select-bar
 			:currentDate="currentDate"
 			:nextMonth="nextMonth"
+			:years="years"
+			:type="type"
+			:selectionType="selectionType"
 			:monthFormat="monthFormat"
 			:locale="locale"
-			:years="years"
 			@change="changeCurrentDate"
 			@change-type="selectionType = $event"
-			:selectionType="selectionType"
-		></select-bar>
+		>
+			<template v-slot:arrow-left><slot name="arrow-left"></slot></template>
+			<template v-slot:arrow-right><slot name="arrow-right"></slot></template>
+		</select-bar>
 		<template v-if="type === 'range' || (type === 'single' && selectionType === 'date')">
 			<calendar
 				v-for="(month, monthIndex) in monthPanels"
@@ -27,6 +31,7 @@
 				@hover="dayHover"
 			>
 				<template v-slot:day="{ day }"><slot name="day" :day="day"></slot></template>
+				<template v-slot:day-inside="{ day }"><slot name="day-inside" :day="day"></slot></template>
 				<template v-slot:weekday="{ day }"><slot name="weekday" :day="day"></slot></template>
 			</calendar>
 		</template>
@@ -43,7 +48,7 @@
 	</div>
 </template>
 <script>
-import * as date from 'date-fns'
+import { add, eachMonthOfInterval, getYear, eachYearOfInterval, endOfYear } from 'date-fns'
 import { last, first, isArray, reverse } from 'lodash-es'
 import en from 'date-fns/locale/en-US'
 import Calendar from './components/calendar.vue'
@@ -101,16 +106,7 @@ export default {
 	},
 	computed: {
 		nextMonth() {
-			return date.add(this.currentDate, { months: 1 })
-		},
-		previousMonth() {
-			return date.sub(this.currentDate, { months: 1 })
-		},
-		nextYear() {
-			return date.add(this.currentDate, { years: 1 })
-		},
-		previousYear() {
-			return date.sub(this.currentDate, { years: 1 })
+			return add(this.currentDate, { months: 1 })
 		},
 		monthPanels() {
 			const months = {
@@ -120,14 +116,14 @@ export default {
 			return months[this.type]
 		},
 		monthsInYear() {
-			const currentYear = `${date.getYear(this.currentDate)}`
-			return date.eachMonthOfInterval({
+			const currentYear = `${getYear(this.currentDate)}`
+			return eachMonthOfInterval({
 				start: new Date(currentYear),
-				end: date.endOfYear(new Date(currentYear)),
+				end: endOfYear(new Date(currentYear)),
 			})
 		},
 		years() {
-			let currentYearFloat = Number.parseInt(date.getYear(this.currentDate))
+			let currentYearFloat = Number.parseInt(getYear(this.currentDate))
 			currentYearFloat /= Math.pow(10, 1)
 			let startYear = Math.floor(currentYearFloat)
 			let endYear = Math.ceil(currentYearFloat)
@@ -135,7 +131,7 @@ export default {
 			startYear = startYear.toString() + 0
 			endYear = endYear.toString() + 0
 
-			return date.eachYearOfInterval({
+			return eachYearOfInterval({
 				start: new Date(startYear),
 				end: new Date(endYear),
 			})
@@ -149,7 +145,7 @@ export default {
 				year: 'years',
 			}
 			const duration = durationsObject[this.selectionType]
-			this.currentDate = date.add(this.currentDate, { [duration]: step })
+			this.currentDate = add(this.currentDate, { [duration]: step })
 		},
 		dayClick(date) {
 			if (!date) {

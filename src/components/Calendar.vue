@@ -16,7 +16,9 @@
 						@mousedown="dayMouseDown(day)"
 						@mouseover="dayHover(day)"
 					>
-						{{ formatDay(day.date) }}
+						<slot :day="day" name="day-inside">
+							{{ formatDay(day.date) }}
+						</slot>
 					</div>
 				</slot>
 			</td>
@@ -25,7 +27,20 @@
 </template>
 
 <script>
-import * as date from 'date-fns'
+import {
+	startOfWeek,
+	endOfWeek,
+	eachDayOfInterval,
+	startOfMonth,
+	endOfMonth,
+	getISODay,
+	getDaysInMonth,
+	lightFormat,
+	format,
+	sub,
+	add,
+	isSameDay,
+} from 'date-fns'
 import { last } from 'lodash-es'
 export default {
 	props: {
@@ -41,13 +56,13 @@ export default {
 	},
 	computed: {
 		weekdays() {
-			return date.eachDayOfInterval({
-				start: date.startOfWeek(this.month, { weekStartsOn: this.weekStartsOn }),
-				end: date.endOfWeek(this.month, { weekStartsOn: this.weekStartsOn }),
+			return eachDayOfInterval({
+				start: startOfWeek(this.month, { weekStartsOn: this.weekStartsOn }),
+				end: endOfWeek(this.month, { weekStartsOn: this.weekStartsOn }),
 			})
 		},
 		monthDays() {
-			return date.eachDayOfInterval({ start: date.startOfMonth(this.month), end: date.endOfMonth(this.month) })
+			return eachDayOfInterval({ start: startOfMonth(this.month), end: endOfMonth(this.month) })
 		},
 		monthArray() {
 			const monthArray = []
@@ -74,10 +89,10 @@ export default {
 			return monthArray
 		},
 		firstDay() {
-			return date.getISODay(date.startOfMonth(this.month))
+			return getISODay(startOfMonth(this.month))
 		},
 		daysInMonth() {
-			return date.getDaysInMonth(this.month)
+			return getDaysInMonth(this.month)
 		},
 	},
 	methods: {
@@ -85,11 +100,11 @@ export default {
 			let daysDifferenceFrom1st = this.firstDay - this.weekStartsOn - dayNumber
 			if (daysDifferenceFrom1st <= 0) {
 				daysDifferenceFrom1st = Math.abs(daysDifferenceFrom1st)
-				day.date = date.add(this.monthDays[0], { days: daysDifferenceFrom1st })
+				day.date = add(this.monthDays[0], { days: daysDifferenceFrom1st })
 				day.isInNextMonth = daysDifferenceFrom1st > this.daysInMonth
 				day.isInMonth = daysDifferenceFrom1st < this.daysInMonth
 			} else {
-				day.date = date.sub(this.monthDays[0], { days: daysDifferenceFrom1st })
+				day.date = sub(this.monthDays[0], { days: daysDifferenceFrom1st })
 				day.isInPreviousMonth = true
 			}
 
@@ -102,10 +117,10 @@ export default {
 			const isBetween = firstDate < day.date && day.date < secondDate
 			day.between = this.type === 'range' && isBetween
 
-			day.start = this.type === 'range' ? date.isSameDay(day.date, firstDate) : false
-			day.end = this.type === 'range' ? date.isSameDay(day.date, secondDate) : false
+			day.start = this.type === 'range' ? isSameDay(day.date, firstDate) : false
+			day.end = this.type === 'range' ? isSameDay(day.date, secondDate) : false
 			if (this.type === 'single') {
-				day.selected = day.isInMonth && date.isSameDay(day.date, this.value[0])
+				day.selected = day.isInMonth && isSameDay(day.date, this.value[0])
 			} else {
 				day.selected = day.isInMonth && (day.start || day.end)
 			}
@@ -116,12 +131,12 @@ export default {
 		},
 		formatDay(value) {
 			if (value) {
-				return date.lightFormat(value, this.dayFormat, { locale: this.locale })
+				return lightFormat(value, this.dayFormat, { locale: this.locale })
 			}
 		},
 		formatWeekday(value) {
 			if (value) {
-				return date.format(value, this.weekdayFormat, { locale: this.locale })
+				return format(value, this.weekdayFormat, { locale: this.locale })
 			}
 		},
 		dayMouseDown(day) {
