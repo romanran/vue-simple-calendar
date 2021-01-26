@@ -1,6 +1,6 @@
 {
   "name": "@romanran/vue-simple-calendar",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "main": "./src/v-simple-calendar.vue",
   "scripts": {
@@ -20,5 +20,10 @@
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.12"
-  }
+  },
+  "keywords": [
+    "calendar",
+    "vue",
+    "simple"
+  ]
 }
