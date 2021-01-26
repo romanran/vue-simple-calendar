@@ -1,35 +1,38 @@
 <template>
-  <div id="app">
-    <v-simple-calendar
-      :type="'single'"
-      :weekdayFormat="'cccccc'"
-      :value="selectedRange"
-      @change="changeValue"
-    ></v-simple-calendar>
-  </div>
+	<div id="app">
+		<div>
+			<button @click="type = 'range'">Range</button>
+			<button @click="type = 'single'">Single</button>
+		</div>
+		<br />
+		<v-simple-calendar :type="type" :weekdayFormat="'cccccc'" :value="selectedRange" @change="changeValue"></v-simple-calendar>
+	</div>
 </template>
 
 <script>
-import VSimpleCalendar from "./v-simple-calendar";
+import VSimpleCalendar from './v-simple-calendar'
 export default {
-  components: {
-    VSimpleCalendar,
-  },
-  data() {
-    return {
-      selectedRange: [new Date()],
-    };
-  },
-  methods: {
-    changeValue(value) {
-      this.selectedRange = value;
-    },
-  },
-};
+	components: {
+		VSimpleCalendar,
+	},
+	data() {
+		return {
+			selectedRange: [new Date()],
+			type: 'range',
+		}
+	},
+	methods: {
+		changeValue(value) {
+			this.selectedRange = value
+		},
+	},
+}
 </script>
 
 <style>
 #app {
-  background: green;
+	text-align: center;
+	padding: 50px;
+	font-family: Arial, Roboto;
 }
 </style>
