@@ -72,7 +72,7 @@ export default {
 		},
 		type: {
 			type: String,
-			default: 'single',
+			default: 'range',
 		},
 		dayFormat: {
 			type: String,

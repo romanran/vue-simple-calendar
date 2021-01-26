@@ -12,7 +12,7 @@
 				<slot :day="day" name="day">
 					<div
 						class="vcs-table__day"
-						:class="{ gray: !day.isInMonth, clickable: isClickable(day), selected: day.selected, start: day.start, between: day.between }"
+						:class="{ 'vcs-gray': !day.isInMonth, 'vcs-clickable': isClickable(day), 'vcs-selected': day.selected, 'vcs-start': day.start, 'vcs-between': day.between }"
 						@mousedown="dayMouseDown(day)"
 						@mouseover="dayHover(day)"
 					>
@@ -183,19 +183,19 @@ export default {
 	line-height: 50px;
 	text-align: center;
 	user-select: none;
-	&.gray {
+	&.vcs-gray {
 		color: #aaa;
 	}
-	&.clickable {
+	&.vcs-clickable {
 		&:hover {
 			background: lightcyan;
 		}
 		cursor: pointer;
 	}
-	&.selected {
+	&.vcs-selected {
 		background: gold;
 	}
-	&.between {
+	&.vcs-between {
 		background: lightpink;
 	}
 }

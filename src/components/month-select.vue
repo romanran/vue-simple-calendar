@@ -2,7 +2,7 @@
 	<div class="vcs-month-select">
 		<tr v-for="(row, rowIndex) in monthsArray" :key="rowIndex" class="vcs-table__row">
 			<td v-for="(month, monthIndex) in row" :key="monthIndex" class="vcs-table__cell">
-				<div class="vcs-month-select__month" :class="{ selected: checkIfCurrentMonth(month) }" v-show="month" @click="$emit('change', month)">
+				<div class="vcs-month-select__month" :class="{ 'vcs-selected': checkIfCurrentMonth(month) }" v-show="month" @click="$emit('change', month)">
 					{{ formatMonth(month) }}
 				</div>
 			</td>
@@ -52,7 +52,7 @@ export default {
 	&:hover {
 		background: lightcyan;
 	}
-	&.selected {
+	&.vcs-selected {
 		background: gold;
 	}
 }

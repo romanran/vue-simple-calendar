@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import VSimpleCalendar from "./VSimpleCalendar";
+import VSimpleCalendar from "./v-simple-calendar";
 export default {
   components: {
     VSimpleCalendar,
