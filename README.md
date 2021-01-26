@@ -23,6 +23,7 @@ npm i -S @romanran/vue-simple-calendar
 
     <script>
     import  VSimpleCalendar  from  '@romanran/vue-simple-calendar'
+    import '@romanran/vue-simple-calendar/dist/vue-simple-calendar.css'
     export  default {
     components: { VSimpleCalendar }
     },
