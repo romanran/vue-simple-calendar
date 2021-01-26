@@ -1,6 +1,6 @@
 {
   "name": "@romanran/vue-simple-calendar",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": false,
   "main": "dist/vue-simple-calendar.umd.min.js",
   "repository": {
