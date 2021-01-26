@@ -16,9 +16,25 @@ A simple vue calendar component. Base for further development and styling.
 
 ## Installation
 
-  
-
 npm i -S @romanran/vue-simple-calendar
+
+## Usage
+
+    <script>
+    import  VSimpleCalendar  from  '@romanran/vue-simple-calendar'
+    export  default {
+    components: { VSimpleCalendar }
+    },
+    </script>
+
+
+<script>
+import VSimpleCalendar from '@romanran/vue-simple-calendar'
+export default {
+    components: { VSimpleCalendar }
+},
+</script>`
+
 
 ## Props
 
