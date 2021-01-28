@@ -3,6 +3,7 @@
   "version": "1.0.13",
   "private": false,
   "main": "dist/vue-simple-calendar.umd.min.js",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/romanran/vue-simple-calendar.git"

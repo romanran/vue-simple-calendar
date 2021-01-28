@@ -1,6 +1,3 @@
-
-  
-
 # vue-simple-calendar
 
 A simple vue calendar component with minimal css. A base for further development/styling.
@@ -11,9 +8,7 @@ A simple vue calendar component with minimal css. A base for further development
 
 ## Dependencies
 
-[date-fns](https://date-fns.org/v2.16.1)
-
-[lodash-es](https://www.npmjs.com/package/lodash-es)
+[date-fns](https://date-fns.org/v2.16.1), [lodash-es](https://www.npmjs.com/package/lodash-es)
 
 ## Installation
 
@@ -25,75 +20,45 @@ npm i -S @romanran/vue-simple-calendar
     import  VSimpleCalendar  from  '@romanran/vue-simple-calendar'
     import '@romanran/vue-simple-calendar/dist/vue-simple-calendar.css'
     export  default {
-    components: { VSimpleCalendar }
+        components: { VSimpleCalendar }
     },
     </script>
 
-
 ## Props
 
-  
-
 - value: null, Date or Array with 1 or 2 Dates. Calendar opens on the selected date or on the current date
-
-  
-
 - type: single, range, month or year
 
-  
 
 **Component uses [date-fns](https://date-fns.org/v2.16.1/docs/format)**
-
-  
-
-- weekStartsOn - Number - default: Monday
-
-  
-
-- dayFormat - String default: "d"
-
-  
-
-- weekdayFormat - String default: "eeeee"
-
-  
-
-- monthFormat - String default: "MMM"
-
-  
-
-- locale - Object imported from [date-fns](https://date-fns.org/v2.16.1/docs/ECMAScript-Modules)
+|name|type|default|
+|--|--|--|
+|weekStartsOn|Number|1-Monday|
+|dayFormat|String |"d"|
+|weekdayFormat |String | "eeeee"|
+|monthFormat |String | "MMM"|
+|locale |Object | import from [date-fns](https://date-fns.org/v2.16.1/docs/ECMAScript-Modules)|
 
 ## Slots
 
-- day - props: day Object - whole day with events and classes
-
-- day-inside - props: day Object - Inside of a `. vcs-table__day` block with date text
-
-- weekday - props: day Object - week days bar at the top element
-
-- arrow-right and arrow-left - slots for arrow icons
-
-  
+|name|props|description|
+|--|--|--|
+|day|day: Object|whole day with events and classes|
+|day-inside|day: Object|Inside of a `. vcs-table__day` block with date text|
+|weekday |day: Object|week days bar at the top element|
+|arrow-right and arrow-left|-|slots for arrow icons|
 
 ## Usage
 
-  
-
 Selection bar at the top is clickable in single, month or year mode type.
-
-  
 
 ### Range mode type
 
-  
-
 To select range first click on a date, second click selects the range. OR hold and move to the second date and release.
-
-  
 
 ### Styling
 
-  
-
 The component has bare minimum styling. Everything is in BE and scoped with `.vcs` prefix, modificators are separate: `.vcs-selected, .vcs-clickable`
+
+### License
+Released under the MIT License. Do whatever you want with it ;)
