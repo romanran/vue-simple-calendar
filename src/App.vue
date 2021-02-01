@@ -6,7 +6,9 @@
 			<button @click="type = 'month'">Month</button>
 		</div>
 		<br />
-		<v-simple-calendar :type="type" :weekdayFormat="'cccccc'" :value="selectedRange" @change="changeValue"></v-simple-calendar>
+		<v-simple-calendar :type="type" :weekdayFormat="'cccccc'" :value="selectedRange" @change="changeValue">
+			<template v-slot:day-inside="{ day, formatDay }">{{ formatDay(day.date) }}</template>
+		</v-simple-calendar>
 	</div>
 </template>
 

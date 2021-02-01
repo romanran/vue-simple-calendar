@@ -12,11 +12,17 @@
 				<slot :day="day" name="day">
 					<div
 						class="vcs-table__day"
-						:class="{ 'vcs-gray': !day.isInMonth, 'vcs-clickable': isClickable(day), 'vcs-selected': day.selected, 'vcs-start': day.start, 'vcs-between': day.between }"
+						:class="{
+							'vcs-gray': !day.isInMonth,
+							'vcs-clickable': isClickable(day),
+							'vcs-selected': day.selected,
+							'vcs-start': day.start,
+							'vcs-between': day.between,
+						}"
 						@mousedown="dayMouseDown(day)"
 						@mouseover="dayHover(day)"
 					>
-						<slot :day="day" name="day-inside">
+						<slot :day="day" :formatDay="formatDay" name="day-inside">
 							{{ formatDay(day.date) }}
 						</slot>
 					</div>
@@ -41,7 +47,7 @@ import {
 	add,
 	isSameDay,
 } from 'date-fns'
-import { last } from 'lodash-es'
+
 export default {
 	props: {
 		month: Date,

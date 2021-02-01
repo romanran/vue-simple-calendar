@@ -47,7 +47,7 @@ npm i -S @romanran/vue-simple-calendar
 |name|props|description|
 |--|--|--|
 |day|day: Object|whole day with events and classes|
-|day-inside|day: Object|Inside of a `. vcs-table__day` block with date text|
+|day-inside|day: Object, formatDay: Function|Inside of a `. vcs-table__day` block with date text|
 |weekday |day: Object|week days bar at the top element|
 |arrow-right and arrow-left|-|slots for arrow icons|
 
