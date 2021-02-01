@@ -26,7 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelod
- - 1.0.15 -  fixed calendar reactivity on type change
+ - 1.0.16 -  fixed calendar reactivity on type change
 ## Props
 
 - value: null, Date or Array with 1 or 2 Dates. Calendar opens on the selected date or on the current date
