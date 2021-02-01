@@ -199,6 +199,9 @@ export default {
 		type: {
 			immediate: true,
 			handler() {
+				if (this.type === 'range' || this.type === 'single') {
+					this.selectionType = 'date'
+				}
 				if (this.type === 'month') {
 					this.selectionType = 'month'
 				}

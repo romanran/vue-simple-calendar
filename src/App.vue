@@ -3,6 +3,7 @@
 		<div>
 			<button @click="type = 'range'">Range</button>
 			<button @click="type = 'single'">Single</button>
+			<button @click="type = 'month'">Month</button>
 		</div>
 		<br />
 		<v-simple-calendar :type="type" :weekdayFormat="'cccccc'" :value="selectedRange" @change="changeValue"></v-simple-calendar>
