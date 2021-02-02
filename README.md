@@ -26,6 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelog
+ - 1.1.7 - Add formatDate function to weekday slot
  - 1.1.6 - Handle empty value, fix locale prop
  - 1.1.5 - Changed weekday class from `.vcs-table__day` to `.vcs-table__weekday`
  - 1.1.4 - added BEM to the rest of the components
@@ -53,7 +54,7 @@ npm i -S @romanran/vue-simple-calendar
 |--|--|--|
 |day|day: Object|whole day with events and classes|
 |day-inside|day: Object, formatDay: Function|Inside of a `. vcs-table__day` block with date text|
-|weekday |day: Object|week days bar at the top element|
+|weekday |day: Object formatDay: Function|week days bar at the top element|
 |arrow-right and arrow-left|-|slots for arrow icons|
 
 ## Usage
