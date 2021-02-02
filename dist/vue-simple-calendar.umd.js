@@ -352,6 +352,50 @@ if (NOT_GENERIC || INCORRECT_NAME) {
 
 /***/ }),
 
+/***/ "26ee":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _freeGlobal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5ea3");
+
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = _freeGlobal_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] || freeSelf || Function('return this')();
+
+/* harmony default export */ __webpack_exports__["a"] = (root);
+
+
+/***/ }),
+
+/***/ "2f74":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (stubFalse);
+
+
+/***/ }),
+
 /***/ "301e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -598,6 +642,55 @@ module.exports = {
 
 /***/ }),
 
+/***/ "58e0":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _root_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("26ee");
+/* harmony import */ var _stubFalse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("2f74");
+
+
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? _root_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].Buffer : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || _stubFalse_js__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"];
+
+/* harmony default export */ __webpack_exports__["a"] = (isBuffer);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("dd40")(module)))
+
+/***/ }),
+
 /***/ "5c6c":
 /***/ (function(module, exports) {
 
@@ -610,6 +703,19 @@ module.exports = function (bitmap, value) {
   };
 };
 
+
+/***/ }),
+
+/***/ "5ea3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/* harmony default export */ __webpack_exports__["a"] = (freeGlobal);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("c8ba")))
 
 /***/ }),
 
@@ -1366,6 +1472,46 @@ module.exports = store;
 
 /***/ }),
 
+/***/ "c6eb":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _freeGlobal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5ea3");
+
+
+/** Detect free variable `exports`. */
+var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && _freeGlobal_js__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    // Use `util.types` for Node.js 10+.
+    var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+    if (types) {
+      return types;
+    }
+
+    // Legacy `process.binding('util')` for Node.js < 10.
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+/* harmony default export */ __webpack_exports__["a"] = (nodeUtil);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__("dd40")(module)))
+
+/***/ }),
+
 /***/ "c8ba":
 /***/ (function(module, exports) {
 
@@ -1587,6 +1733,37 @@ module.exports =
 
 /***/ }),
 
+/***/ "dd40":
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "df75":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1713,7 +1890,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=b3a86a48&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=08fa1936&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs",class:("vcs-" + _vm.type)},[_c('select-bar',{attrs:{"currentDate":_vm.currentDate,"nextMonth":_vm.nextMonth,"years":_vm.years,"type":_vm.type,"selectionType":_vm.selectionType,"monthFormat":_vm.monthFormat,"locale":_vm.locale},on:{"change":_vm.changeCurrentDate,"change-type":function($event){_vm.selectionType = $event}},scopedSlots:_vm._u([{key:"arrow-left",fn:function(){return [_vm._t("arrow-left")]},proxy:true},{key:"arrow-right",fn:function(){return [_vm._t("arrow-right")]},proxy:true}],null,true)}),(_vm.type === 'range' || (_vm.type === 'single' && _vm.selectionType === 'date'))?_vm._l((_vm.monthPanels),function(month,monthIndex){return _c('calendar',{key:monthIndex,attrs:{"month":month,"weekStartsOn":_vm.weekStartsOn,"dayFormat":_vm.dayFormat,"weekdayFormat":_vm.weekdayFormat,"locale":_vm.locale,"value":_vm.value,"type":_vm.type,"selecting":_vm.clickCount === 1,"dayUnderCursor":_vm.dayUnderCursor},on:{"day-click":_vm.dayClick,"hover":_vm.dayHover},scopedSlots:_vm._u([{key:"day",fn:function(ref){
 var day = ref.day;
 return [_vm._t("day",null,{"day":day})]}},{key:"day-inside",fn:function(ref){
@@ -1725,7 +1902,7 @@ return [_vm._t("weekday",null,{"day":day})]}}],null,true)})}):_vm._e(),(_vm.sele
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=b3a86a48&
+// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=08fa1936&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -2771,8 +2948,8 @@ var en_US_locale = {
   }
 };
 /* harmony default export */ var en_US = (en_US_locale);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=29cef0ee&
-var calendarvue_type_template_id_29cef0ee_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-table"},[_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=39f39f2c&
+var calendarvue_type_template_id_39f39f2c_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-table"},[_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
 				'vcs-table__cell--disabled': !day.isInMonth,
 				'vcs-table__cell--clickable': _vm.isClickable(day),
 				'vcs-table__cell--selected': day.selected,
@@ -2787,10 +2964,10 @@ var calendarvue_type_template_id_29cef0ee_render = function () {var _vm=this;var
 						'vcs-table__day--end': day.end,
 						'vcs-table__day--between': day.between,
 					},on:{"mousedown":function($event){return _vm.dayMouseDown(day)},"mouseover":function($event){return _vm.dayHover(day)}}},[_vm._t("day-inside",[_vm._v(" "+_vm._s(_vm.formatDay(day.date))+" ")],{"day":day,"formatDay":_vm.formatDay})],2)],{"day":day})],2)}),0)})],2)}
-var calendarvue_type_template_id_29cef0ee_staticRenderFns = []
+var calendarvue_type_template_id_39f39f2c_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=29cef0ee&
+// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=39f39f2c&
 
 // CONCATENATED MODULE: ./node_modules/date-fns/esm/eachDayOfInterval/index.js
 
@@ -5297,6 +5474,867 @@ function format(dirtyDate, dirtyFormatStr, dirtyOptions) {
 function format_cleanEscapedString(input) {
   return input.match(format_escapedStringRegExp)[1].replace(format_doubleQuoteRegExp, "'");
 }
+// CONCATENATED MODULE: ./node_modules/lodash-es/_isPrototype.js
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/* harmony default export */ var _isPrototype = (isPrototype);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_overArg.js
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/* harmony default export */ var _overArg = (overArg);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_nativeKeys.js
+
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = _overArg(Object.keys, Object);
+
+/* harmony default export */ var _nativeKeys = (nativeKeys);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseKeys.js
+
+
+
+/** Used for built-in method references. */
+var _baseKeys_objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var _baseKeys_hasOwnProperty = _baseKeys_objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  if (!_isPrototype(object)) {
+    return _nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (_baseKeys_hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/* harmony default export */ var _baseKeys = (baseKeys);
+
+// EXTERNAL MODULE: ./node_modules/lodash-es/_root.js
+var _root = __webpack_require__("26ee");
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_Symbol.js
+
+
+/** Built-in value references. */
+var Symbol = _root["a" /* default */].Symbol;
+
+/* harmony default export */ var _Symbol = (Symbol);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_getRawTag.js
+
+
+/** Used for built-in method references. */
+var _getRawTag_objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var _getRawTag_hasOwnProperty = _getRawTag_objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = _getRawTag_objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = _getRawTag_hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+/* harmony default export */ var _getRawTag = (getRawTag);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_objectToString.js
+/** Used for built-in method references. */
+var _objectToString_objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var _objectToString_nativeObjectToString = _objectToString_objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return _objectToString_nativeObjectToString.call(value);
+}
+
+/* harmony default export */ var _objectToString = (objectToString);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseGetTag.js
+
+
+
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var _baseGetTag_symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (_baseGetTag_symToStringTag && _baseGetTag_symToStringTag in Object(value))
+    ? _getRawTag(value)
+    : _objectToString(value);
+}
+
+/* harmony default export */ var _baseGetTag = (baseGetTag);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isObject.js
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/* harmony default export */ var lodash_es_isObject = (isObject);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isFunction.js
+
+
+
+/** `Object#toString` result references. */
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!lodash_es_isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = _baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+/* harmony default export */ var lodash_es_isFunction = (isFunction);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_coreJsData.js
+
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = _root["a" /* default */]['__core-js_shared__'];
+
+/* harmony default export */ var _coreJsData = (coreJsData);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_isMasked.js
+
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(_coreJsData && _coreJsData.keys && _coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/* harmony default export */ var _isMasked = (isMasked);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_toSource.js
+/** Used for built-in method references. */
+var funcProto = Function.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to convert.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/* harmony default export */ var _toSource = (toSource);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsNative.js
+
+
+
+
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var _baseIsNative_funcProto = Function.prototype,
+    _baseIsNative_objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var _baseIsNative_funcToString = _baseIsNative_funcProto.toString;
+
+/** Used to check objects for own properties. */
+var _baseIsNative_hasOwnProperty = _baseIsNative_objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  _baseIsNative_funcToString.call(_baseIsNative_hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!lodash_es_isObject(value) || _isMasked(value)) {
+    return false;
+  }
+  var pattern = lodash_es_isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(_toSource(value));
+}
+
+/* harmony default export */ var _baseIsNative = (baseIsNative);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_getValue.js
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/* harmony default export */ var _getValue = (getValue);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_getNative.js
+
+
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = _getValue(object, key);
+  return _baseIsNative(value) ? value : undefined;
+}
+
+/* harmony default export */ var _getNative = (getNative);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_DataView.js
+
+
+
+/* Built-in method references that are verified to be native. */
+var DataView = _getNative(_root["a" /* default */], 'DataView');
+
+/* harmony default export */ var _DataView = (DataView);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_Map.js
+
+
+
+/* Built-in method references that are verified to be native. */
+var Map = _getNative(_root["a" /* default */], 'Map');
+
+/* harmony default export */ var _Map = (Map);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_Promise.js
+
+
+
+/* Built-in method references that are verified to be native. */
+var Promise = _getNative(_root["a" /* default */], 'Promise');
+
+/* harmony default export */ var _Promise = (Promise);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_Set.js
+
+
+
+/* Built-in method references that are verified to be native. */
+var Set = _getNative(_root["a" /* default */], 'Set');
+
+/* harmony default export */ var _Set = (Set);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_WeakMap.js
+
+
+
+/* Built-in method references that are verified to be native. */
+var WeakMap = _getNative(_root["a" /* default */], 'WeakMap');
+
+/* harmony default export */ var _WeakMap = (WeakMap);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_getTag.js
+
+
+
+
+
+
+
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = _toSource(_DataView),
+    mapCtorString = _toSource(_Map),
+    promiseCtorString = _toSource(_Promise),
+    setCtorString = _toSource(_Set),
+    weakMapCtorString = _toSource(_WeakMap);
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = _baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((_DataView && getTag(new _DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (_Map && getTag(new _Map) != mapTag) ||
+    (_Promise && getTag(_Promise.resolve()) != promiseTag) ||
+    (_Set && getTag(new _Set) != setTag) ||
+    (_WeakMap && getTag(new _WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = _baseGetTag(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? _toSource(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/* harmony default export */ var _getTag = (getTag);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isObjectLike.js
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/* harmony default export */ var lodash_es_isObjectLike = (isObjectLike);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsArguments.js
+
+
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return lodash_es_isObjectLike(value) && _baseGetTag(value) == argsTag;
+}
+
+/* harmony default export */ var _baseIsArguments = (baseIsArguments);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isArguments.js
+
+
+
+/** Used for built-in method references. */
+var isArguments_objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var isArguments_hasOwnProperty = isArguments_objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var propertyIsEnumerable = isArguments_objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = _baseIsArguments(function() { return arguments; }()) ? _baseIsArguments : function(value) {
+  return lodash_es_isObjectLike(value) && isArguments_hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+/* harmony default export */ var lodash_es_isArguments = (isArguments);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isLength.js
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/* harmony default export */ var lodash_es_isLength = (isLength);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isArrayLike.js
+
+
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && lodash_es_isLength(value.length) && !lodash_es_isFunction(value);
+}
+
+/* harmony default export */ var lodash_es_isArrayLike = (isArrayLike);
+
+// EXTERNAL MODULE: ./node_modules/lodash-es/isBuffer.js
+var isBuffer = __webpack_require__("58e0");
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseIsTypedArray.js
+
+
+
+
+/** `Object#toString` result references. */
+var _baseIsTypedArray_argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    _baseIsTypedArray_funcTag = '[object Function]',
+    _baseIsTypedArray_mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    _baseIsTypedArray_objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    _baseIsTypedArray_setTag = '[object Set]',
+    stringTag = '[object String]',
+    _baseIsTypedArray_weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    _baseIsTypedArray_dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[_baseIsTypedArray_argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[_baseIsTypedArray_dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[_baseIsTypedArray_funcTag] =
+typedArrayTags[_baseIsTypedArray_mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[_baseIsTypedArray_objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[_baseIsTypedArray_setTag] = typedArrayTags[stringTag] =
+typedArrayTags[_baseIsTypedArray_weakMapTag] = false;
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return lodash_es_isObjectLike(value) &&
+    lodash_es_isLength(value.length) && !!typedArrayTags[_baseGetTag(value)];
+}
+
+/* harmony default export */ var _baseIsTypedArray = (baseIsTypedArray);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/_baseUnary.js
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+/* harmony default export */ var _baseUnary = (baseUnary);
+
+// EXTERNAL MODULE: ./node_modules/lodash-es/_nodeUtil.js
+var _nodeUtil = __webpack_require__("c6eb");
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isTypedArray.js
+
+
+
+
+/* Node.js helper references. */
+var nodeIsTypedArray = _nodeUtil["a" /* default */] && _nodeUtil["a" /* default */].isTypedArray;
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+var isTypedArray = nodeIsTypedArray ? _baseUnary(nodeIsTypedArray) : _baseIsTypedArray;
+
+/* harmony default export */ var lodash_es_isTypedArray = (isTypedArray);
+
+// CONCATENATED MODULE: ./node_modules/lodash-es/isEmpty.js
+
+
+
+
+
+
+
+
+
+/** `Object#toString` result references. */
+var isEmpty_mapTag = '[object Map]',
+    isEmpty_setTag = '[object Set]';
+
+/** Used for built-in method references. */
+var isEmpty_objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var isEmpty_hasOwnProperty = isEmpty_objectProto.hasOwnProperty;
+
+/**
+ * Checks if `value` is an empty object, collection, map, or set.
+ *
+ * Objects are considered empty if they have no own enumerable string keyed
+ * properties.
+ *
+ * Array-like values such as `arguments` objects, arrays, buffers, strings, or
+ * jQuery-like collections are considered empty if they have a `length` of `0`.
+ * Similarly, maps and sets are considered empty if they have a `size` of `0`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  if (lodash_es_isArrayLike(value) &&
+      (lodash_es_isArray(value) || typeof value == 'string' || typeof value.splice == 'function' ||
+        Object(isBuffer["a" /* default */])(value) || lodash_es_isTypedArray(value) || lodash_es_isArguments(value))) {
+    return !value.length;
+  }
+  var tag = _getTag(value);
+  if (tag == isEmpty_mapTag || tag == isEmpty_setTag) {
+    return !value.size;
+  }
+  if (_isPrototype(value)) {
+    return !_baseKeys(value).length;
+  }
+  for (var key in value) {
+    if (isEmpty_hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/* harmony default export */ var lodash_es_isEmpty = (isEmpty);
+
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=script&lang=js&
 
 //
@@ -5346,6 +6384,7 @@ function format_cleanEscapedString(input) {
 //
 //
 //
+
 
 /* harmony default export */ var calendarvue_type_script_lang_js_ = ({
   props: {
@@ -5428,9 +6467,16 @@ function format_cleanEscapedString(input) {
         day.isInPreviousMonth = true;
       }
 
-      var firstDate = this.value[0];
       var dayUnderCursor = this.dayUnderCursor && this.dayUnderCursor.date;
-      var secondDate = this.selecting ? dayUnderCursor : this.value[1];
+      var firstDate, secondDate;
+
+      if (lodash_es_isEmpty(this.value)) {
+        firstDate = new Date();
+        secondDate = this.selecting ? dayUnderCursor : firstDate;
+      } else {
+        firstDate = this.value[0];
+        secondDate = this.selecting ? dayUnderCursor : this.value[1];
+      }
 
       if (secondDate && secondDate < firstDate) {
         ;
@@ -5612,8 +6658,8 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   components_calendarvue_type_script_lang_js_,
-  calendarvue_type_template_id_29cef0ee_render,
-  calendarvue_type_template_id_29cef0ee_staticRenderFns,
+  calendarvue_type_template_id_39f39f2c_render,
+  calendarvue_type_template_id_39f39f2c_staticRenderFns,
   false,
   null,
   null,
@@ -6098,7 +7144,9 @@ var month_select_component = normalizeComponent(
     },
     locale: {
       type: Object,
-      default: en_US
+      default: function _default() {
+        return en_US;
+      }
     }
   },
   data: function data() {
@@ -6204,6 +7252,8 @@ var month_select_component = normalizeComponent(
   created: function created() {
     if (this.value) {
       this.currentDate = lodash_es_isArray(this.value) ? this.value[0] : this.value;
+    } else {
+      this.currentDate = new Date();
     }
   },
   watch: {

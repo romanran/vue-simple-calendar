@@ -92,7 +92,9 @@ export default {
 		},
 		locale: {
 			type: Object,
-			default: en,
+			default() {
+				return en
+			},
 		},
 	},
 	data() {
@@ -193,6 +195,8 @@ export default {
 	created() {
 		if (this.value) {
 			this.currentDate = isArray(this.value) ? this.value[0] : this.value
+		} else {
+			this.currentDate = new Date()
 		}
 	},
 	watch: {

@@ -60,6 +60,7 @@ import {
 	add,
 	isSameDay,
 } from 'date-fns'
+import { isEmpty } from 'lodash-es'
 
 export default {
 	props: {
@@ -127,9 +128,15 @@ export default {
 				day.isInPreviousMonth = true
 			}
 
-			let firstDate = this.value[0]
 			const dayUnderCursor = this.dayUnderCursor && this.dayUnderCursor.date
-			let secondDate = this.selecting ? dayUnderCursor : this.value[1]
+			let firstDate, secondDate
+			if (isEmpty(this.value)) {
+				firstDate = new Date()
+				secondDate = this.selecting ? dayUnderCursor : firstDate
+			} else {
+				firstDate = this.value[0]
+				secondDate = this.selecting ? dayUnderCursor : this.value[1]
+			}
 			if (secondDate && secondDate < firstDate) {
 				;[firstDate, secondDate] = [secondDate, firstDate] // if 2nd date is before 1st swap them
 			}
