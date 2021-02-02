@@ -8,7 +8,19 @@
 			</td>
 		</tr>
 		<tr v-for="(row, rowIndex) in monthArray" :key="rowIndex" class="vcs-table__row">
-			<td v-for="(day, dayIndex) in row" :key="dayIndex" class="vcs-table__cell">
+			<td
+				v-for="(day, dayIndex) in row"
+				:key="dayIndex"
+				class="vcs-table__cell"
+				:class="{
+					'vcs-table__cell--disabled': !day.isInMonth,
+					'vcs-table__cell--clickable': isClickable(day),
+					'vcs-table__cell--selected': day.selected,
+					'vcs-table__cell--start': day.start,
+					'vcs-table__cell--end': day.end,
+					'vcs-table__cell--between': day.between,
+				}"
+			>
 				<slot :day="day" name="day">
 					<div
 						class="vcs-table__day"

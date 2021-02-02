@@ -26,8 +26,9 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelog
- - 1.0.16 -  fixed calendar reactivity on type change
+ - 1.1.3 - added modifier classes to `.vcs-table__cell`
  - 1.1.0 - changed to BEM, added `.vcs-table__day--end` class
+ - 1.0.16 - fixed calendar reactivity on type change
 ## Props
 
 - value: null, Date or Array with 1 or 2 Dates. Calendar opens on the selected date or on the current date
@@ -73,5 +74,6 @@ Day classes inside the calendar:
 |`.vcs-table__day--start`| start of the selection|
 |`.vcs-table__day--end`| end of the selection|
 |`.vcs-table__day--between`| day between the selection|
+same for `.vcs-table__cell`
 ### License
 Released under the MIT License. Do whatever you want with it ;)
