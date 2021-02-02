@@ -26,6 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelog
+ - 1.1.10 - Add weekday cell classes
  - 1.1.7 - Add formatDate function to weekday slot
  - 1.1.6 - Handle empty value, fix locale prop
  - 1.1.5 - Changed weekday class from `.vcs-table__day` to `.vcs-table__weekday`
