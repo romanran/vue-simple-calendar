@@ -26,6 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelog
+ - 1.1.5 - Changed weekday class from `.vcs-table__day` to `.vcs-table__weekday`
  - 1.1.4 - added BEM to the rest of the components
  - 1.1.3 - added modifier classes to `.vcs-table__cell`
  - 1.1.0 - changed to BEM, added `.vcs-table__day--end` class

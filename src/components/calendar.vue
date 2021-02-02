@@ -1,9 +1,9 @@
 <template>
 	<div class="vcs-table">
-		<tr class="vcs-table__row weekdays">
+		<tr class="vcs-table__row vcs-table__row--weekdays">
 			<td v-for="(day, dayIndex) in weekdays" :key="dayIndex">
 				<slot :day="day" name="weekday">
-					<div class="vcs-table__day">{{ formatWeekday(day) }}</div>
+					<div class="vcs-table__weekday">{{ formatWeekday(day) }}</div>
 				</slot>
 			</td>
 		</tr>
@@ -196,7 +196,8 @@ export default {
 		box-sizing: inherit;
 	}
 }
-.vcs-table__day {
+.vcs-table__day,
+.vcs-table__weekday {
 	width: 50px;
 	height: 50px;
 	line-height: 50px;
