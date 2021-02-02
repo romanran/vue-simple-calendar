@@ -182,7 +182,6 @@ export default {
 		mouseUp() {
 			this.releasedMouseButton = true
 			window.removeEventListener('mouseup', this.mouseUp)
-			console.log('mouse up')
 			this.$emit('day-click', this.dayUnderCursor.date)
 			if (!this.isClickable(this.dayUnderCursor)) {
 				// this.$emit('day-click', this.value[0]) // maybe?
