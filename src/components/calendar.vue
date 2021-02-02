@@ -146,7 +146,7 @@ export default {
 			day.start = this.type === 'range' ? isSameDay(day.date, firstDate) : false
 			day.end = this.type === 'range' ? isSameDay(day.date, secondDate) : false
 			if (this.type === 'single') {
-				day.selected = day.isInMonth && isSameDay(day.date, this.value[0])
+				day.selected = day.isInMonth && isSameDay(day.date, firstDate)
 			} else {
 				day.selected = day.isInMonth && (day.start || day.end)
 			}
