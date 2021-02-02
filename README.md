@@ -61,7 +61,15 @@ To select range first click on a date, second click selects the range. OR hold a
 
 ### Styling
 
-The component has bare minimum styling. Everything is in BE and scoped with `.vcs` prefix, modificators are separate: `.vcs-selected, .vcs-clickable`
+The component has bare minimum styling. Everything is in BEM and scoped with `.vcs` prefix.
 
+Day classes inside the calendar:
+|class|description|
+|'.vcs-table__day--disabled'| day not in the current month|
+|'.vcs-table__day--clickable'| you can click it ;)|
+|'.vcs-table__day--selected'| selected|
+|'.vcs-table__day--start'| start of the selection|
+|'.vcs-table__day--end'| end of the selection|
+|'.vcs-table__day--between'| day between the selection|
 ### License
 Released under the MIT License. Do whatever you want with it ;)

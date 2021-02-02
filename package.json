@@ -1,6 +1,6 @@
 {
   "name": "@romanran/vue-simple-calendar",
-  "version": "1.0.18",
+  "version": "1.1.1",
   "private": false,
   "main": "dist/vue-simple-calendar.umd.min.js",
   "license": "MIT",
@@ -12,8 +12,7 @@
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "build": "vue-cli-service build --target lib  --name vue-simple-calendar src/v-simple-calendar.vue --production",
-    "build:demo": "vue-cli-service build",
-    "publish": "npm run build | npm publish"
+    "build:demo": "vue-cli-service build"
   },
   "dependencies": {
     "core-js": "^3.6.4",

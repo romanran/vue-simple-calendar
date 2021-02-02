@@ -13,11 +13,12 @@
 					<div
 						class="vcs-table__day"
 						:class="{
-							'vcs-gray': !day.isInMonth,
-							'vcs-clickable': isClickable(day),
-							'vcs-selected': day.selected,
-							'vcs-start': day.start,
-							'vcs-between': day.between,
+							'vcs-table__day--disabled': !day.isInMonth,
+							'vcs-table__day--clickable': isClickable(day),
+							'vcs-table__day--selected': day.selected,
+							'vcs-table__day--start': day.start,
+							'vcs-table__day--end': day.end,
+							'vcs-table__day--between': day.between,
 						}"
 						@mousedown="dayMouseDown(day)"
 						@mouseover="dayHover(day)"
@@ -189,20 +190,20 @@ export default {
 	line-height: 50px;
 	text-align: center;
 	user-select: none;
-	&.vcs-gray {
-		color: #aaa;
+}
+.vcs-table__day--disabled {
+	color: #aaa;
+}
+.vcs-table__day--clickable {
+	&:hover {
+		background: lightcyan;
 	}
-	&.vcs-clickable {
-		&:hover {
-			background: lightcyan;
-		}
-		cursor: pointer;
-	}
-	&.vcs-selected {
-		background: gold;
-	}
-	&.vcs-between {
-		background: lightpink;
-	}
+	cursor: pointer;
+}
+.vcs-table__day--selected {
+	background: gold;
+}
+.vcs-table__day--between {
+	background: lightpink;
 }
 </style>
