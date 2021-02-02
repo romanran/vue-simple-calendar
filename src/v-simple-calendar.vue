@@ -32,7 +32,7 @@
 			>
 				<template v-slot:day="{ day }"><slot name="day" :day="day"></slot></template>
 				<template v-slot:day-inside="{ day, formatDay }"><slot name="day-inside" :day="day" :formatDay="formatDay"></slot></template>
-				<template v-slot:weekday="{ day, formatDay }"><slot name="weekday" :day="day" :formatDay="formatDay"></slot></template>
+				<template v-slot:weekday="{ day, formatWeekday }"><slot name="weekday" :day="day" :formatWeekday="formatWeekday"></slot></template>
 			</calendar>
 		</template>
 		<year-select :value="value[0]" v-if="selectionType === 'year'" :years="years" @change="selectYear" />

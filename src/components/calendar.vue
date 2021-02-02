@@ -2,7 +2,7 @@
 	<div class="vcs-table">
 		<tr class="vcs-table__row vcs-table__row--weekdays">
 			<td v-for="(day, dayIndex) in weekdays" :key="dayIndex">
-				<slot :day="day" :formatDay="formatDay" name="weekday">
+				<slot :day="day" :formatWeekday="formatWeekday" name="weekday">
 					<div class="vcs-table__weekday">{{ formatWeekday(day) }}</div>
 				</slot>
 			</td>
