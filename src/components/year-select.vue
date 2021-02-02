@@ -1,8 +1,18 @@
 <template>
 	<div class="vcs-year-select">
 		<tr v-for="(row, rowIndex) in yearsArray" :key="rowIndex" class="vcs-table__row">
-			<td v-for="(year, yearIndex) in row" :key="yearIndex" class="vcs-table__cell">
-				<div class="vcs-year-select__year" :class="{ 'vcs-selected': checkIfCurrentYear(year) }" v-show="year" @click="$emit('change', year)">
+			<td
+				v-for="(year, yearIndex) in row"
+				:key="yearIndex"
+				class="vcs-table__cell"
+				:class="{ 'vcs-year-select__cell--selected': checkIfCurrentYear(year) }"
+			>
+				<div
+					class="vcs-year-select__year"
+					:class="{ 'vcs-year-select__year--selected': checkIfCurrentYear(year) }"
+					v-show="year"
+					@click="$emit('change', year)"
+				>
 					{{ formatYear(year) }}
 				</div>
 			</td>
@@ -50,8 +60,8 @@ export default {
 	&:hover {
 		background: lightcyan;
 	}
-	&.vcs-selected {
-		background: gold;
-	}
+}
+.vcs-year-select__year--selected {
+	background: gold;
 }
 </style>

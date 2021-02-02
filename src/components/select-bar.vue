@@ -1,6 +1,6 @@
 <template>
 	<div class="vcs-select-bar" :class="`vcs-${selectionType}`">
-		<div class="vcs-select-bar__arrow vcs-left" @click.prevent.stop="arrowClick(-1)">
+		<div class="vcs-select-bar__arrow vcs-select-bar__arrow--left" @click.prevent.stop="arrowClick(-1)">
 			<slot name="arrow-left">←</slot>
 		</div>
 
@@ -23,13 +23,13 @@
 				<span class="vcs-select-bar__month" @click="type === 'single' && $emit('change-type', 'month')">{{ formatMonth(currentDate) }}</span
 				><span class="vcs-select-bar__year" @click="type === 'single' && $emit('change-type', 'year')">{{ formatYear(currentDate) }}</span>
 			</div>
-			<div class="vcs-select-bar__date vcs-second">
+			<div class="vcs-select-bar__date vcs-select-bar__date--second">
 				<span class="vcs-select-bar__month">{{ formatMonth(nextMonth) }}</span>
 				<span class="vcs-select-bar__year">{{ formatYear(nextMonth) }}</span>
 			</div>
 		</template>
 
-		<div class="vcs-select-bar__arrow right" @click.prevent.stop="arrowClick(1)">
+		<div class="vcs-select-bar__arrow vcs-select-bar__arrow--right" @click.prevent.stop="arrowClick(1)">
 			<slot name="arrow-right">→</slot>
 		</div>
 	</div>
@@ -80,12 +80,12 @@ export default {
 	text-align: center;
 	margin-right: 5px;
 }
+.vcs-single .vcs-select-bar__date--second {
+	display: none;
+}
 .vcs-select-bar__date {
 	width: 100%;
 	text-align: center;
-	.vcs-single &.vcs-second {
-		display: none;
-	}
 	.vcs-year & {
 		display: block;
 	}

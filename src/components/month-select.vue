@@ -1,8 +1,18 @@
 <template>
 	<div class="vcs-month-select">
 		<tr v-for="(row, rowIndex) in monthsArray" :key="rowIndex" class="vcs-table__row">
-			<td v-for="(month, monthIndex) in row" :key="monthIndex" class="vcs-table__cell">
-				<div class="vcs-month-select__month" :class="{ 'vcs-selected': checkIfCurrentMonth(month) }" v-show="month" @click="$emit('change', month)">
+			<td
+				v-for="(month, monthIndex) in row"
+				:key="monthIndex"
+				class="vcs-table__cell"
+				:class="{ 'vcs-month-select__cell--selected': checkIfCurrentMonth(month) }"
+			>
+				<div
+					class="vcs-month-select__month"
+					:class="{ 'vcs-month-select__month--selected': checkIfCurrentMonth(month) }"
+					v-show="month"
+					@click="$emit('change', month)"
+				>
 					{{ formatMonth(month) }}
 				</div>
 			</td>
@@ -52,8 +62,8 @@ export default {
 	&:hover {
 		background: lightcyan;
 	}
-	&.vcs-selected {
-		background: gold;
-	}
+}
+.vcs-month-select__month--selected {
+	background: gold;
 }
 </style>
