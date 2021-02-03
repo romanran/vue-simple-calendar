@@ -2949,8 +2949,8 @@ var en_US_locale = {
   }
 };
 /* harmony default export */ var en_US = (en_US_locale);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=34605522&
-var calendarvue_type_template_id_34605522_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-table"},[_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell vcs-table__cell--weekday"},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day,"formatWeekday":_vm.formatWeekday})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"40f605fc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=0e0ca4b6&
+var calendarvue_type_template_id_0e0ca4b6_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-table"},[_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell vcs-table__cell--weekday"},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day,"formatWeekday":_vm.formatWeekday})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
 				'vcs-table__cell--disabled': !day.isInMonth,
 				'vcs-table__cell--clickable': _vm.isClickable(day),
 				'vcs-table__cell--selected': day.selected,
@@ -2965,10 +2965,10 @@ var calendarvue_type_template_id_34605522_render = function () {var _vm=this;var
 						'vcs-table__day--end': day.end,
 						'vcs-table__day--between': day.between,
 					},on:{"mousedown":function($event){return _vm.dayMouseDown(day)},"mouseover":function($event){return _vm.dayHover(day)}}},[_vm._t("day-inside",[_vm._v(" "+_vm._s(_vm.formatDay(day.date))+" ")],{"day":day,"formatDay":_vm.formatDay})],2)],{"day":day})],2)}),0)})],2)}
-var calendarvue_type_template_id_34605522_staticRenderFns = []
+var calendarvue_type_template_id_0e0ca4b6_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=34605522&
+// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=0e0ca4b6&
 
 // CONCATENATED MODULE: ./node_modules/date-fns/esm/eachDayOfInterval/index.js
 
@@ -6529,8 +6529,6 @@ function isEmpty(value) {
       setTimeout(function () {
         if (!_this.releasedMouseButton) {
           _this.$emit('day-click', day.date);
-
-          console.log('emit day click');
         }
       }, 100);
     },
@@ -6658,8 +6656,8 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   components_calendarvue_type_script_lang_js_,
-  calendarvue_type_template_id_34605522_render,
-  calendarvue_type_template_id_34605522_staticRenderFns,
+  calendarvue_type_template_id_0e0ca4b6_render,
+  calendarvue_type_template_id_0e0ca4b6_staticRenderFns,
   false,
   null,
   null,

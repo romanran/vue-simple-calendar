@@ -175,7 +175,6 @@ export default {
 			setTimeout(() => {
 				if (!this.releasedMouseButton) {
 					this.$emit('day-click', day.date)
-					console.log('emit day click')
 				}
 			}, 100)
 		},
