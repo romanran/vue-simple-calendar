@@ -172,7 +172,7 @@ export default {
 			return day.date < startOfDay(this.minDate) || day.date > startOfDay(this.maxDate)
 		},
 		isClickable(day) {
-			return day && day.isInMonth
+			return day && day.isInMonth && !day.disabled
 		},
 		formatDay(value) {
 			if (value) {
