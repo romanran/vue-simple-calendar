@@ -150,7 +150,7 @@ export default {
 			if (this.type === 'single') {
 				selected = day.isInMonth && isSameDay(day.date, firstDate)
 			} else {
-				selected = day.isInMonth && (day.start || day.end)
+				selected = day.isInMonth && (start || end)
 			}
 			return { start, end, selected, between }
 		},
