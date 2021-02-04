@@ -26,6 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 
 ## Changelog
+ - 1.2.0 - Add min and max dates
  - 1.1.11 - Fix single type empty value
  - 1.1.10 - Add weekday cell classes
  - 1.1.7 - Add formatDate function to weekday slot
@@ -37,9 +38,12 @@ npm i -S @romanran/vue-simple-calendar
  - 1.0.16 - fixed calendar reactivity on type change
 ## Props
 
-- value: null, Date or Array with 1 or 2 Dates. Calendar opens on the selected date or on the current date
-- type: single, range, month or year
-
+|name|type|description|
+|--|--|--|
+|value| null Date or Array with 1 or 2 Dates| Calendar opens on the selected date or on the current date|
+|type|String|single, range, month or year|
+|minDate |String | before that date the days will be disabled to pick|
+|maxDate |String | after that date the days will be disabled to pick|
 
 **Component uses [date-fns](https://date-fns.org/v2.16.1/docs/format)**
 |name|type|default|
@@ -80,6 +84,6 @@ Day classes inside the calendar:
 |`.vcs-table__day--start`| start of the selection|
 |`.vcs-table__day--end`| end of the selection|
 |`.vcs-table__day--between`| day between the selection|
-same for `.vcs-table__cell`
+same for `.vcs-table__cell`, `.vcs-month-select__cell`, `.vcs-month-year__cell`
 ### License
 Released under the MIT License. Do whatever you want with it ;)
