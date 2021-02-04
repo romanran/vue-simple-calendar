@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { format, add } from 'date-fns'
+import { format } from 'date-fns'
 import { last } from 'lodash-es'
 export default {
 	props: {

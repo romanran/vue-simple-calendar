@@ -13,7 +13,7 @@
 				:key="dayIndex"
 				class="vcs-table__cell"
 				:class="{
-					'vcs-table__cell--disabled': !day.isInMonth,
+					'vcs-table__cell--disabled': !day.isInMonth || day.disabled,
 					'vcs-table__cell--clickable': isClickable(day),
 					'vcs-table__cell--selected': day.selected,
 					'vcs-table__cell--start': day.start,
@@ -25,7 +25,7 @@
 					<div
 						class="vcs-table__day"
 						:class="{
-							'vcs-table__day--disabled': !day.isInMonth,
+							'vcs-table__day--disabled': !day.isInMonth || day.disabled,
 							'vcs-table__day--clickable': isClickable(day),
 							'vcs-table__day--selected': day.selected,
 							'vcs-table__day--start': day.start,
@@ -59,6 +59,7 @@ import {
 	sub,
 	add,
 	isSameDay,
+	startOfDay,
 } from 'date-fns'
 import { isEmpty } from 'lodash-es'
 
@@ -73,6 +74,8 @@ export default {
 		type: String,
 		selecting: Boolean,
 		dayUnderCursor: Object,
+		minDate: Date,
+		maxDate: Date,
 	},
 	computed: {
 		weekdays() {
@@ -127,8 +130,31 @@ export default {
 				day.date = sub(this.monthDays[0], { days: daysDifferenceFrom1st })
 				day.isInPreviousMonth = true
 			}
-
+			day.disabled = this.checkIfDisabled(day)
 			const dayUnderCursor = this.dayUnderCursor && this.dayUnderCursor.date
+			const { start, end, between, selected } = this.getBetweenRange(day, dayUnderCursor)
+			day.start = start
+			day.end = end
+			day.between = between
+			day.selected = selected
+			return day
+		},
+		getBetweenRange(day, dayUnderCursor) {
+			const { firstDate, secondDate } = this.getDatesFromValue(dayUnderCursor)
+			const isBetween = firstDate < day.date && day.date < secondDate
+			const between = this.type === 'range' && isBetween
+
+			const start = this.type === 'range' ? isSameDay(day.date, firstDate) : false
+			const end = this.type === 'range' ? isSameDay(day.date, secondDate) : false
+			let selected
+			if (this.type === 'single') {
+				selected = day.isInMonth && isSameDay(day.date, firstDate)
+			} else {
+				selected = day.isInMonth && (day.start || day.end)
+			}
+			return { start, end, selected, between }
+		},
+		getDatesFromValue(dayUnderCursor) {
 			let firstDate, secondDate
 			if (isEmpty(this.value)) {
 				firstDate = new Date()
@@ -140,17 +166,10 @@ export default {
 			if (secondDate && secondDate < firstDate) {
 				;[firstDate, secondDate] = [secondDate, firstDate] // if 2nd date is before 1st swap them
 			}
-			const isBetween = firstDate < day.date && day.date < secondDate
-			day.between = this.type === 'range' && isBetween
-
-			day.start = this.type === 'range' ? isSameDay(day.date, firstDate) : false
-			day.end = this.type === 'range' ? isSameDay(day.date, secondDate) : false
-			if (this.type === 'single') {
-				day.selected = day.isInMonth && isSameDay(day.date, firstDate)
-			} else {
-				day.selected = day.isInMonth && (day.start || day.end)
-			}
-			return day
+			return { firstDate, secondDate }
+		},
+		checkIfDisabled(day) {
+			return day.date < startOfDay(this.minDate) || day.date > startOfDay(this.maxDate)
 		},
 		isClickable(day) {
 			return day && day.isInMonth
