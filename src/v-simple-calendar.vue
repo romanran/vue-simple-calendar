@@ -7,6 +7,8 @@
 			:type="type"
 			:selectionType="selectionType"
 			:monthFormat="monthFormat"
+			:minDate="minDate"
+			:maxDate="maxDate"
 			:locale="locale"
 			@change="changeCurrentDate"
 			@change-type="selectionType = $event"
@@ -27,6 +29,8 @@
 				:type="type"
 				:selecting="clickCount === 1"
 				:dayUnderCursor="dayUnderCursor"
+				:minDate="minDate"
+				:maxDate="maxDate"
 				@day-click="dayClick"
 				@hover="dayHover"
 			>
@@ -35,13 +39,15 @@
 				<template v-slot:weekday="{ day, formatWeekday }"><slot name="weekday" :day="day" :formatWeekday="formatWeekday"></slot></template>
 			</calendar>
 		</template>
-		<year-select :value="value[0]" v-if="selectionType === 'year'" :years="years" @change="selectYear" />
+		<year-select v-if="selectionType === 'year'" :value="value && value[0]" :minDate="minDate" :maxDate="maxDate" :years="years" @change="selectYear" />
 		<month-select
 			v-if="selectionType === 'month'"
 			:currentDate="currentDate"
-			:value="value[0]"
+			:value="value && value[0]"
 			:months="monthsInYear"
 			:calendarMonthFormat="calendarMonthFormat"
+			:minDate="minDate"
+			:maxDate="maxDate"
 			:locale="locale"
 			@change="selectMonth"
 		/>
@@ -96,6 +102,8 @@ export default {
 				return en
 			},
 		},
+		minDate: Date,
+		maxDate: Date,
 	},
 	data() {
 		return {

@@ -5,15 +5,15 @@
 				v-for="(year, yearIndex) in row"
 				:key="yearIndex"
 				class="vcs-table__cell"
-				:class="{ 'vcs-year-select__cell--selected': checkIfCurrentYear(year) }"
+				:class="{ 'vcs-year-select__cell--selected': year.selected, 'vcs-year-select__cel--disabled': year.disabled }"
 			>
 				<div
 					class="vcs-year-select__year"
-					:class="{ 'vcs-year-select__year--selected': checkIfCurrentYear(year) }"
-					v-show="year"
-					@click="$emit('change', year)"
+					:class="{ 'vcs-year-select__year--selected': year.selected, 'vcs-year-select__year--disabled': year.disabled }"
+					v-show="year.date"
+					@click="$emit('change', year.date)"
 				>
-					{{ formatYear(year) }}
+					{{ formatYear(year.date) }}
 				</div>
 			</td>
 		</tr>
@@ -21,11 +21,13 @@
 </template>
 
 <script>
-import { getYear, isSameYear } from 'date-fns'
+import { getYear, isSameYear, endOfYear, startOfYear } from 'date-fns'
 export default {
 	props: {
 		years: Array,
 		value: Date,
+		minDate: Date,
+		maxDate: Date,
 	},
 	computed: {
 		yearsArray() {
@@ -34,7 +36,13 @@ export default {
 			for (let row = 0; row < 3; row++) {
 				const rowArray = []
 				for (let cell = 0; cell < 4; cell++) {
-					rowArray.push(this.years[yearIndex])
+					const date = this.years[yearIndex]
+					const yearObject = {
+						date: date,
+						disabled: this.checkIfDisabled(date),
+						selected: this.checkIfCurrentYear(date),
+					}
+					rowArray.push(yearObject)
 					yearIndex++
 				}
 				yearArray.push(rowArray)
@@ -48,6 +56,9 @@ export default {
 		},
 		checkIfCurrentYear(year) {
 			return isSameYear(year, this.value)
+		},
+		checkIfDisabled(year) {
+			return year < startOfYear(this.minDate) || year > endOfYear(this.maxDate)
 		},
 	},
 }
@@ -63,5 +74,10 @@ export default {
 }
 .vcs-year-select__year--selected {
 	background: gold;
+}
+.vcs-year-select__year--disabled {
+	pointer-events: none;
+	background: lightgray;
+	color: gray;
 }
 </style>

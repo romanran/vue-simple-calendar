@@ -5,15 +5,15 @@
 				v-for="(month, monthIndex) in row"
 				:key="monthIndex"
 				class="vcs-table__cell"
-				:class="{ 'vcs-month-select__cell--selected': checkIfCurrentMonth(month) }"
+				:class="{ 'vcs-month-select__cell--selected': month.selected, 'vcs-month-select__cell--disabled': month.disabled }"
 			>
 				<div
 					class="vcs-month-select__month"
-					:class="{ 'vcs-month-select__month--selected': checkIfCurrentMonth(month) }"
-					v-show="month"
-					@click="$emit('change', month)"
+					:class="{ 'vcs-month-select__month--selected': month.selected, 'vcs-month-select__month--disabled': month.disabled }"
+					v-show="month.date"
+					@click="$emit('change', month.date)"
 				>
-					{{ formatMonth(month) }}
+					{{ formatMonth(month.date) }}
 				</div>
 			</td>
 		</tr>
@@ -21,13 +21,15 @@
 </template>
 
 <script>
-import { format, isSameMonth } from 'date-fns'
+import { format, isSameMonth, startOfMonth, endOfMonth } from 'date-fns'
 export default {
 	props: {
 		months: Array,
 		calendarMonthFormat: String,
 		locale: Object,
 		value: Date,
+		minDate: Date,
+		maxDate: Date,
 	},
 	computed: {
 		monthsArray() {
@@ -36,7 +38,13 @@ export default {
 			for (let row = 0; row < 3; row++) {
 				const rowArray = []
 				for (let cell = 0; cell < 4; cell++) {
-					rowArray.push(this.months[monthIndex])
+					const date = this.months[monthIndex]
+					const monthObject = {
+						date: date,
+						disabled: this.checkIfDisabled(date),
+						selected: this.checkIfCurrentMonth(date),
+					}
+					rowArray.push(monthObject)
 					monthIndex++
 				}
 				monthArray.push(rowArray)
@@ -50,6 +58,9 @@ export default {
 		},
 		checkIfCurrentMonth(month) {
 			return isSameMonth(month, this.value)
+		},
+		checkIfDisabled(month) {
+			return month < startOfMonth(this.minDate) || month > endOfMonth(this.maxDate)
 		},
 	},
 }
@@ -65,5 +76,10 @@ export default {
 }
 .vcs-month-select__month--selected {
 	background: gold;
+}
+.vcs-month-select__month--disabled {
+	pointer-events: none;
+	background: lightgray;
+	color: gray;
 }
 </style>
