@@ -1,6 +1,6 @@
 <template>
     <table class="vcs-table">
-        <tr class="vcs-table__row vcs-table__row--title">
+        <tr class="vcs-table__row vcs-table__row--title" v-if="type === 'infinite'">
             <td colspan="7" class="vcs-table__cell vcs-table__cell--title">{{ formatMonth(month) }}</td>
         </tr>
         <tr class="vcs-table__row vcs-table__row--weekdays">

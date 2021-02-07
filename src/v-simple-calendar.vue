@@ -122,7 +122,7 @@ export default {
             scrollThrottled: throttle(this.onScroll, 20),
             parentNodeElement: null,
             tableHeight: 0,
-            infiniteStartMonth: new Date()
+            infiniteStartMonth: null
         }
     },
     computed: {
@@ -229,7 +229,6 @@ export default {
         },
         onScroll() {
             const scrollY = this.parentNodeElement.scrollTop
-            console.log(scrollY, this.tableHeight)
             if (scrollY < this.tableHeight) {
                 this.infiniteStartMonth = sub(this.infiniteStartMonth, { months: 6 })
                 this.parentNodeElement.scrollTop = this.tableHeight * 6
@@ -246,11 +245,12 @@ export default {
         } else {
             this.currentDate = new Date()
         }
+        this.infiniteStartMonth = sub(this.currentDate, { months: 5 })
     },
     watch: {
         type: {
             immediate: true,
-            handler() {
+            async handler() {
                 if (this.type === 'range' || this.type === 'single') {
                     this.selectionType = 'date'
                 }
@@ -262,17 +262,23 @@ export default {
                 }
                 if (this.type === 'infinite') {
                     this.selectionType = null
+                    await this.$nextTick() // wait for tables to appear
                     this.addScrollListener()
+                    this.parentNodeElement.scrollTop = this.tableHeight * 5
                 } else {
                     this.removeScrollListener()
                 }
             }
+        },
+        currentDate() {
+            this.infiniteStartMonth = sub(this.currentDate, { months: 5 })
         }
     },
     mounted() {
         if (this.type === 'infinite') {
             this.selectionType = null
             this.addScrollListener()
+            this.parentNodeElement.scrollTop = this.tableHeight * 5
         } else {
             this.removeScrollListener()
         }
