@@ -108,6 +108,10 @@ export default {
                 return en
             }
         },
+        throttleTime: {
+            type: Number,
+            default: 20
+        },
         minDate: Date,
         maxDate: Date,
         parentNode: Object
@@ -119,7 +123,7 @@ export default {
             clickCount: 0,
             dayUnderCursor: null,
             selectionType: 'date',
-            scrollThrottled: throttle(this.onScroll, 20),
+            scrollThrottled: throttle(this.onScroll, this.throttleTime),
             parentNodeElement: null,
             tableHeight: 0,
             infiniteStartMonth: null
