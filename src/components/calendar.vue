@@ -216,6 +216,9 @@ export default {
 .vcs-table {
 	display: inline-block;
 	box-sizing: border-box;
+	.vcs-infinite & {
+		display: block;
+	}
 	* {
 		box-sizing: inherit;
 	}

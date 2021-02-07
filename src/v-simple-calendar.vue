@@ -1,6 +1,7 @@
 <template>
 	<div class="vcs" :class="`vcs-${type}`">
 		<select-bar
+			v-if="type !== 'infinite'"
 			:currentDate="currentDate"
 			:nextMonth="nextMonth"
 			:years="years"
@@ -16,7 +17,7 @@
 			<template v-slot:arrow-left><slot name="arrow-left"></slot></template>
 			<template v-slot:arrow-right><slot name="arrow-right"></slot></template>
 		</select-bar>
-		<template v-if="type === 'range' || (type === 'single' && selectionType === 'date')">
+		<template v-if="type === 'range' || (type === 'single' && selectionType === 'date') || type === 'infinite'">
 			<calendar
 				v-for="(month, monthIndex) in monthPanels"
 				:key="monthIndex"
@@ -122,6 +123,7 @@ export default {
 			const months = {
 				single: [this.currentDate],
 				range: [this.currentDate, this.nextMonth],
+				infinite: this.monthsInYear,
 			}
 			return months[this.type]
 		},
@@ -220,6 +222,9 @@ export default {
 				if (this.type === 'year') {
 					this.selectionType = 'year'
 				}
+				if (this.type === 'infinite') {
+					this.selectionType = null
+				}
 			},
 		},
 	},
@@ -231,5 +236,8 @@ export default {
 }
 .vcs-table + .vcs-table {
 	margin-left: 20px;
+	.vcs-infinite & {
+		margin-left: 0;
+	}
 }
 </style>
