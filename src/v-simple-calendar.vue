@@ -222,12 +222,16 @@ export default {
 			}
 		},
 		addScrollListener() {
-			if (!this.parentNodeElement) return
+			if (!this.parentNodeElement) {
+				return false
+			}
 			this.parentNodeElement.addEventListener('scroll', this.scrollThrottled)
 			this.tableHeight = this.$el.children[0].offsetHeight
 		},
 		removeScrollListener() {
-			if (!this.parentNodeElement) return
+			if (!this.parentNodeElement) {
+				return false
+			}
 			this.parentNodeElement.removeEventListener('scroll', this.scrollThrottled)
 		},
 		onScroll() {
@@ -270,6 +274,7 @@ export default {
 					this.addScrollListener()
 					this.parentNodeElement.scrollTop = this.tableHeight * 5
 				} else {
+					await this.$nextTick()
 					this.removeScrollListener()
 				}
 			},
@@ -280,7 +285,6 @@ export default {
 	},
 	mounted() {
 		this.parentNodeElement = this.parentNode ? this.parentNode : this.$el.parentNode
-
 		if (this.type === 'infinite') {
 			this.selectionType = null
 			this.addScrollListener()
