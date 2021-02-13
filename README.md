@@ -26,6 +26,7 @@ npm i -S @romanran/vue-simple-calendar
 
 ## Changelog
 
+-   1.4.0 - Move infinite to a separate prop, remove cells paddings
 -   1.3.0 - Add infinite type for mobile devices
 -   1.2.0 - Add min and max dates
 -   1.1.11 - Fix single type empty value
@@ -46,8 +47,9 @@ npm i -S @romanran/vue-simple-calendar
 | type         | String                               | single, range, month or year                                                   |
 | minDate      | String                               | before that date the days will be disabled to pick                             |
 | maxDate      | String                               | after that date the days will be disabled to pick                              |
-| throttleTime | Number                               | if using infinite type, scroll function is throttled by this time, default: 20 |
-| parentNode   | Number                               | if using infinite type, scroll element, default: component parent              |
+| infinite     | Boolean                              | set to true for endless scroll          |
+| throttleTime | Number                               | if using infinite calendar, scroll function is throttled by this time, default: 20 |
+| parentNode   | Number                               | if using infinite calendar, scroll element, default: component parent              |
 
 **Component uses [date-fns](https://date-fns.org/v2.16.1/docs/format)**
 |name|type|default|
@@ -69,7 +71,7 @@ npm i -S @romanran/vue-simple-calendar
 
 ## Usage
 
-Selection bar at the top is clickable in single, month or year mode type.
+Selection bar at the top is clickable in single, month or year mode type. Infinite calendar creates 13 months with infinite vertical scroll. 
 
 ### Range mode type
 

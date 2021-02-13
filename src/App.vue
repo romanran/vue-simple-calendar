@@ -1,11 +1,11 @@
 <template>
 	<div id="app">
 		<div>
-			<button @click="active = !active">Activate</button>
+			<button @click="active = !active">Toggle</button>
 			<button @click="type = 'range'">Range</button>
 			<button @click="type = 'single'">Single</button>
 			<button @click="type = 'month'">Month</button>
-			<button @click="type = 'infinite'">infinite</button>
+			<button @click="infinite = !infinite">Toggle infinite</button>
 		</div>
 		<br />
 		<div class="mobile-wrap" ref="parent">
@@ -17,6 +17,7 @@
 				@change="changeValue"
 				:minDate="new Date('2021-01-03')"
 				:maxDate="new Date('2021-04-25')"
+				:infinite="infinite"
 			>
 				<template v-slot:day-inside="{ day, formatDay }">{{ formatDay(day.date) }}</template>
 			</v-simple-calendar>
@@ -33,8 +34,9 @@ export default {
 	data() {
 		return {
 			selectedRange: null,
-			type: 'infinite',
-			active: false,
+			type: 'range',
+			active: true,
+			infinite: false,
 		}
 	},
 	methods: {

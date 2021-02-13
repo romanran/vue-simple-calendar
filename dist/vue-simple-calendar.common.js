@@ -133,35 +133,6 @@ module.exports = function (fn, that, length) {
 
 /***/ }),
 
-/***/ "057f":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toIndexedObject = __webpack_require__("fc6a");
-var nativeGetOwnPropertyNames = __webpack_require__("241c").f;
-
-var toString = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function (it) {
-  try {
-    return nativeGetOwnPropertyNames(it);
-  } catch (error) {
-    return windowNames.slice();
-  }
-};
-
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && toString.call(it) == '[object Window]'
-    ? getWindowNames(it)
-    : nativeGetOwnPropertyNames(toIndexedObject(it));
-};
-
-
-/***/ }),
-
 /***/ "06cf":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -321,32 +292,6 @@ module.exports = /(iphone|ipod|ipad).*applewebkit/i.test(userAgent);
 module.exports = function (it) {
   if (it == undefined) throw TypeError("Can't call method on " + it);
   return it;
-};
-
-
-/***/ }),
-
-/***/ "1dde":
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__("d039");
-var wellKnownSymbol = __webpack_require__("b622");
-var V8_VERSION = __webpack_require__("2d00");
-
-var SPECIES = wellKnownSymbol('species');
-
-module.exports = function (METHOD_NAME) {
-  // We can't use this feature detection in V8 since it causes
-  // deoptimization and serious performance degradation
-  // https://github.com/zloirock/core-js/issues/677
-  return V8_VERSION >= 51 || !fails(function () {
-    var array = [];
-    var constructor = array.constructor = {};
-    constructor[SPECIES] = function () {
-      return { foo: 1 };
-    };
-    return array[METHOD_NAME](Boolean).foo !== 1;
-  });
 };
 
 
@@ -872,43 +817,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "3ca3":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var charAt = __webpack_require__("6547").charAt;
-var InternalStateModule = __webpack_require__("69f3");
-var defineIterator = __webpack_require__("7dd0");
-
-var STRING_ITERATOR = 'String Iterator';
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
-
-// `String.prototype[@@iterator]` method
-// https://tc39.es/ecma262/#sec-string.prototype-@@iterator
-defineIterator(String, 'String', function (iterated) {
-  setInternalState(this, {
-    type: STRING_ITERATOR,
-    string: String(iterated),
-    index: 0
-  });
-// `%StringIteratorPrototype%.next` method
-// https://tc39.es/ecma262/#sec-%stringiteratorprototype%.next
-}, function next() {
-  var state = getInternalState(this);
-  var string = state.string;
-  var index = state.index;
-  var point;
-  if (index >= string.length) return { value: undefined, done: true };
-  point = charAt(string, index);
-  state.index += point.length;
-  return { value: point, done: false };
-});
-
-
-/***/ }),
-
 /***/ "3f8c":
 /***/ (function(module, exports) {
 
@@ -943,33 +851,6 @@ module.exports = fails(function () {
 }) ? function (it) {
   return classof(it) == 'String' ? split.call(it, '') : Object(it);
 } : Object;
-
-
-/***/ }),
-
-/***/ "44d2":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-var create = __webpack_require__("7c73");
-var definePropertyModule = __webpack_require__("9bf2");
-
-var UNSCOPABLES = wellKnownSymbol('unscopables');
-var ArrayPrototype = Array.prototype;
-
-// Array.prototype[@@unscopables]
-// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  definePropertyModule.f(ArrayPrototype, UNSCOPABLES, {
-    configurable: true,
-    value: create(null)
-  });
-}
-
-// add a key to Array.prototype[@@unscopables]
-module.exports = function (key) {
-  ArrayPrototype[UNSCOPABLES][key] = true;
-};
 
 
 /***/ }),
@@ -1068,55 +949,6 @@ module.exports = {
   // `Array.prototype.indexOf` method
   // https://tc39.es/ecma262/#sec-array.prototype.indexof
   indexOf: createMethod(false)
-};
-
-
-/***/ }),
-
-/***/ "4df4":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var bind = __webpack_require__("0366");
-var toObject = __webpack_require__("7b0b");
-var callWithSafeIterationClosing = __webpack_require__("9bdd");
-var isArrayIteratorMethod = __webpack_require__("e95a");
-var toLength = __webpack_require__("50c4");
-var createProperty = __webpack_require__("8418");
-var getIteratorMethod = __webpack_require__("35a1");
-
-// `Array.from` method implementation
-// https://tc39.es/ecma262/#sec-array.from
-module.exports = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-  var O = toObject(arrayLike);
-  var C = typeof this == 'function' ? this : Array;
-  var argumentsLength = arguments.length;
-  var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
-  var mapping = mapfn !== undefined;
-  var iteratorMethod = getIteratorMethod(O);
-  var index = 0;
-  var length, result, step, iterator, next, value;
-  if (mapping) mapfn = bind(mapfn, argumentsLength > 2 ? arguments[2] : undefined, 2);
-  // if the target is not iterable or it's an array with the default iterator - use a simple case
-  if (iteratorMethod != undefined && !(C == Array && isArrayIteratorMethod(iteratorMethod))) {
-    iterator = iteratorMethod.call(O);
-    next = iterator.next;
-    result = new C();
-    for (;!(step = next.call(iterator)).done; index++) {
-      value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
-      createProperty(result, index, value);
-    }
-  } else {
-    length = toLength(O.length);
-    result = new C(length);
-    for (;length > index; index++) {
-      value = mapping ? mapfn(O[index], index) : O[index];
-      createProperty(result, index, value);
-    }
-  }
-  result.length = index;
-  return result;
 };
 
 
@@ -1318,67 +1150,6 @@ module.exports = classof(global.process) == 'process';
 
 /***/ }),
 
-/***/ "6547":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__("a691");
-var requireObjectCoercible = __webpack_require__("1d80");
-
-// `String.prototype.{ codePointAt, at }` methods implementation
-var createMethod = function (CONVERT_TO_STRING) {
-  return function ($this, pos) {
-    var S = String(requireObjectCoercible($this));
-    var position = toInteger(pos);
-    var size = S.length;
-    var first, second;
-    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-    first = S.charCodeAt(position);
-    return first < 0xD800 || first > 0xDBFF || position + 1 === size
-      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-        ? CONVERT_TO_STRING ? S.charAt(position) : first
-        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-  };
-};
-
-module.exports = {
-  // `String.prototype.codePointAt` method
-  // https://tc39.es/ecma262/#sec-string.prototype.codepointat
-  codeAt: createMethod(false),
-  // `String.prototype.at` method
-  // https://github.com/mathiasbynens/String.prototype.at
-  charAt: createMethod(true)
-};
-
-
-/***/ }),
-
-/***/ "65f0":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("861d");
-var isArray = __webpack_require__("e8b5");
-var wellKnownSymbol = __webpack_require__("b622");
-
-var SPECIES = wellKnownSymbol('species');
-
-// `ArraySpeciesCreate` abstract operation
-// https://tc39.es/ecma262/#sec-arrayspeciescreate
-module.exports = function (originalArray, length) {
-  var C;
-  if (isArray(originalArray)) {
-    C = originalArray.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    else if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
-  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
-};
-
-
-/***/ }),
-
 /***/ "69f3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1529,24 +1300,6 @@ exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
 
-/***/ "746f":
-/***/ (function(module, exports, __webpack_require__) {
-
-var path = __webpack_require__("428f");
-var has = __webpack_require__("5135");
-var wrappedWellKnownSymbolModule = __webpack_require__("e538");
-var defineProperty = __webpack_require__("9bf2").f;
-
-module.exports = function (NAME) {
-  var Symbol = path.Symbol || (path.Symbol = {});
-  if (!has(Symbol, NAME)) defineProperty(Symbol, NAME, {
-    value: wrappedWellKnownSymbolModule.f(NAME)
-  });
-};
-
-
-/***/ }),
-
 /***/ "7839":
 /***/ (function(module, exports) {
 
@@ -1560,20 +1313,6 @@ module.exports = [
   'toString',
   'valueOf'
 ];
-
-
-/***/ }),
-
-/***/ "7b0b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__("1d80");
-
-// `ToObject` abstract operation
-// https://tc39.es/ecma262/#sec-toobject
-module.exports = function (argument) {
-  return Object(requireObjectCoercible(argument));
-};
 
 
 /***/ }),
@@ -1663,104 +1402,6 @@ module.exports = Object.create || function create(O, Properties) {
 
 /***/ }),
 
-/***/ "7dd0":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var createIteratorConstructor = __webpack_require__("9ed3");
-var getPrototypeOf = __webpack_require__("e163");
-var setPrototypeOf = __webpack_require__("d2bb");
-var setToStringTag = __webpack_require__("d44e");
-var createNonEnumerableProperty = __webpack_require__("9112");
-var redefine = __webpack_require__("6eeb");
-var wellKnownSymbol = __webpack_require__("b622");
-var IS_PURE = __webpack_require__("c430");
-var Iterators = __webpack_require__("3f8c");
-var IteratorsCore = __webpack_require__("ae93");
-
-var IteratorPrototype = IteratorsCore.IteratorPrototype;
-var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-var ITERATOR = wellKnownSymbol('iterator');
-var KEYS = 'keys';
-var VALUES = 'values';
-var ENTRIES = 'entries';
-
-var returnThis = function () { return this; };
-
-module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
-  createIteratorConstructor(IteratorConstructor, NAME, next);
-
-  var getIterationMethod = function (KIND) {
-    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
-    switch (KIND) {
-      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
-      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
-      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-    } return function () { return new IteratorConstructor(this); };
-  };
-
-  var TO_STRING_TAG = NAME + ' Iterator';
-  var INCORRECT_VALUES_NAME = false;
-  var IterablePrototype = Iterable.prototype;
-  var nativeIterator = IterablePrototype[ITERATOR]
-    || IterablePrototype['@@iterator']
-    || DEFAULT && IterablePrototype[DEFAULT];
-  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
-  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
-  var CurrentIteratorPrototype, methods, KEY;
-
-  // fix native
-  if (anyNativeIterator) {
-    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
-    if (IteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
-      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
-        if (setPrototypeOf) {
-          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
-        } else if (typeof CurrentIteratorPrototype[ITERATOR] != 'function') {
-          createNonEnumerableProperty(CurrentIteratorPrototype, ITERATOR, returnThis);
-        }
-      }
-      // Set @@toStringTag to native iterators
-      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
-      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
-    }
-  }
-
-  // fix Array#{values, @@iterator}.name in V8 / FF
-  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
-    INCORRECT_VALUES_NAME = true;
-    defaultIterator = function values() { return nativeIterator.call(this); };
-  }
-
-  // define iterator
-  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
-    createNonEnumerableProperty(IterablePrototype, ITERATOR, defaultIterator);
-  }
-  Iterators[NAME] = defaultIterator;
-
-  // export additional methods
-  if (DEFAULT) {
-    methods = {
-      values: getIterationMethod(VALUES),
-      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
-      entries: getIterationMethod(ENTRIES)
-    };
-    if (FORCED) for (KEY in methods) {
-      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-        redefine(IterablePrototype, KEY, methods[KEY]);
-      }
-    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
-  }
-
-  return methods;
-};
-
-
-/***/ }),
-
 /***/ "7f9a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1797,24 +1438,6 @@ var fails = __webpack_require__("d039");
 module.exports = !fails(function () {
   return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
 });
-
-
-/***/ }),
-
-/***/ "8418":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toPrimitive = __webpack_require__("c04e");
-var definePropertyModule = __webpack_require__("9bf2");
-var createPropertyDescriptor = __webpack_require__("5c6c");
-
-module.exports = function (object, key, value) {
-  var propertyKey = toPrimitive(key);
-  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
-  else object[propertyKey] = value;
-};
 
 
 /***/ }),
@@ -2727,26 +2350,6 @@ try {
 
 /***/ }),
 
-/***/ "9bdd":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("825a");
-var iteratorClose = __webpack_require__("2a62");
-
-// call something on iterator step with safe closing on error
-module.exports = function (iterator, fn, value, ENTRIES) {
-  try {
-    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (error) {
-    iteratorClose(iterator);
-    throw error;
-  }
-};
-
-
-/***/ }),
-
 /***/ "9bf2":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2774,375 +2377,12 @@ exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, A
 
 /***/ }),
 
-/***/ "9ed3":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var IteratorPrototype = __webpack_require__("ae93").IteratorPrototype;
-var create = __webpack_require__("7c73");
-var createPropertyDescriptor = __webpack_require__("5c6c");
-var setToStringTag = __webpack_require__("d44e");
-var Iterators = __webpack_require__("3f8c");
-
-var returnThis = function () { return this; };
-
-module.exports = function (IteratorConstructor, NAME, next) {
-  var TO_STRING_TAG = NAME + ' Iterator';
-  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(1, next) });
-  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
-  Iterators[TO_STRING_TAG] = returnThis;
-  return IteratorConstructor;
-};
-
-
-/***/ }),
-
 /***/ "a4b4":
 /***/ (function(module, exports, __webpack_require__) {
 
 var userAgent = __webpack_require__("342f");
 
 module.exports = /web0s(?!.*chrome)/i.test(userAgent);
-
-
-/***/ }),
-
-/***/ "a4d3":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var global = __webpack_require__("da84");
-var getBuiltIn = __webpack_require__("d066");
-var IS_PURE = __webpack_require__("c430");
-var DESCRIPTORS = __webpack_require__("83ab");
-var NATIVE_SYMBOL = __webpack_require__("4930");
-var USE_SYMBOL_AS_UID = __webpack_require__("fdbf");
-var fails = __webpack_require__("d039");
-var has = __webpack_require__("5135");
-var isArray = __webpack_require__("e8b5");
-var isObject = __webpack_require__("861d");
-var anObject = __webpack_require__("825a");
-var toObject = __webpack_require__("7b0b");
-var toIndexedObject = __webpack_require__("fc6a");
-var toPrimitive = __webpack_require__("c04e");
-var createPropertyDescriptor = __webpack_require__("5c6c");
-var nativeObjectCreate = __webpack_require__("7c73");
-var objectKeys = __webpack_require__("df75");
-var getOwnPropertyNamesModule = __webpack_require__("241c");
-var getOwnPropertyNamesExternal = __webpack_require__("057f");
-var getOwnPropertySymbolsModule = __webpack_require__("7418");
-var getOwnPropertyDescriptorModule = __webpack_require__("06cf");
-var definePropertyModule = __webpack_require__("9bf2");
-var propertyIsEnumerableModule = __webpack_require__("d1e7");
-var createNonEnumerableProperty = __webpack_require__("9112");
-var redefine = __webpack_require__("6eeb");
-var shared = __webpack_require__("5692");
-var sharedKey = __webpack_require__("f772");
-var hiddenKeys = __webpack_require__("d012");
-var uid = __webpack_require__("90e3");
-var wellKnownSymbol = __webpack_require__("b622");
-var wrappedWellKnownSymbolModule = __webpack_require__("e538");
-var defineWellKnownSymbol = __webpack_require__("746f");
-var setToStringTag = __webpack_require__("d44e");
-var InternalStateModule = __webpack_require__("69f3");
-var $forEach = __webpack_require__("b727").forEach;
-
-var HIDDEN = sharedKey('hidden');
-var SYMBOL = 'Symbol';
-var PROTOTYPE = 'prototype';
-var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(SYMBOL);
-var ObjectPrototype = Object[PROTOTYPE];
-var $Symbol = global.Symbol;
-var $stringify = getBuiltIn('JSON', 'stringify');
-var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-var nativeDefineProperty = definePropertyModule.f;
-var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
-var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
-var AllSymbols = shared('symbols');
-var ObjectPrototypeSymbols = shared('op-symbols');
-var StringToSymbolRegistry = shared('string-to-symbol-registry');
-var SymbolToStringRegistry = shared('symbol-to-string-registry');
-var WellKnownSymbolsStore = shared('wks');
-var QObject = global.QObject;
-// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
-
-// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDescriptor = DESCRIPTORS && fails(function () {
-  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
-    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
-  })).a != 7;
-}) ? function (O, P, Attributes) {
-  var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
-  if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
-  nativeDefineProperty(O, P, Attributes);
-  if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
-    nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
-  }
-} : nativeDefineProperty;
-
-var wrap = function (tag, description) {
-  var symbol = AllSymbols[tag] = nativeObjectCreate($Symbol[PROTOTYPE]);
-  setInternalState(symbol, {
-    type: SYMBOL,
-    tag: tag,
-    description: description
-  });
-  if (!DESCRIPTORS) symbol.description = description;
-  return symbol;
-};
-
-var isSymbol = USE_SYMBOL_AS_UID ? function (it) {
-  return typeof it == 'symbol';
-} : function (it) {
-  return Object(it) instanceof $Symbol;
-};
-
-var $defineProperty = function defineProperty(O, P, Attributes) {
-  if (O === ObjectPrototype) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
-  anObject(O);
-  var key = toPrimitive(P, true);
-  anObject(Attributes);
-  if (has(AllSymbols, key)) {
-    if (!Attributes.enumerable) {
-      if (!has(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {}));
-      O[HIDDEN][key] = true;
-    } else {
-      if (has(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
-      Attributes = nativeObjectCreate(Attributes, { enumerable: createPropertyDescriptor(0, false) });
-    } return setSymbolDescriptor(O, key, Attributes);
-  } return nativeDefineProperty(O, key, Attributes);
-};
-
-var $defineProperties = function defineProperties(O, Properties) {
-  anObject(O);
-  var properties = toIndexedObject(Properties);
-  var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
-  $forEach(keys, function (key) {
-    if (!DESCRIPTORS || $propertyIsEnumerable.call(properties, key)) $defineProperty(O, key, properties[key]);
-  });
-  return O;
-};
-
-var $create = function create(O, Properties) {
-  return Properties === undefined ? nativeObjectCreate(O) : $defineProperties(nativeObjectCreate(O), Properties);
-};
-
-var $propertyIsEnumerable = function propertyIsEnumerable(V) {
-  var P = toPrimitive(V, true);
-  var enumerable = nativePropertyIsEnumerable.call(this, P);
-  if (this === ObjectPrototype && has(AllSymbols, P) && !has(ObjectPrototypeSymbols, P)) return false;
-  return enumerable || !has(this, P) || !has(AllSymbols, P) || has(this, HIDDEN) && this[HIDDEN][P] ? enumerable : true;
-};
-
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
-  var it = toIndexedObject(O);
-  var key = toPrimitive(P, true);
-  if (it === ObjectPrototype && has(AllSymbols, key) && !has(ObjectPrototypeSymbols, key)) return;
-  var descriptor = nativeGetOwnPropertyDescriptor(it, key);
-  if (descriptor && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) {
-    descriptor.enumerable = true;
-  }
-  return descriptor;
-};
-
-var $getOwnPropertyNames = function getOwnPropertyNames(O) {
-  var names = nativeGetOwnPropertyNames(toIndexedObject(O));
-  var result = [];
-  $forEach(names, function (key) {
-    if (!has(AllSymbols, key) && !has(hiddenKeys, key)) result.push(key);
-  });
-  return result;
-};
-
-var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
-  var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
-  var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject(O));
-  var result = [];
-  $forEach(names, function (key) {
-    if (has(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || has(ObjectPrototype, key))) {
-      result.push(AllSymbols[key]);
-    }
-  });
-  return result;
-};
-
-// `Symbol` constructor
-// https://tc39.es/ecma262/#sec-symbol-constructor
-if (!NATIVE_SYMBOL) {
-  $Symbol = function Symbol() {
-    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor');
-    var description = !arguments.length || arguments[0] === undefined ? undefined : String(arguments[0]);
-    var tag = uid(description);
-    var setter = function (value) {
-      if (this === ObjectPrototype) setter.call(ObjectPrototypeSymbols, value);
-      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-      setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
-    };
-    if (DESCRIPTORS && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
-    return wrap(tag, description);
-  };
-
-  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
-    return getInternalState(this).tag;
-  });
-
-  redefine($Symbol, 'withoutSetter', function (description) {
-    return wrap(uid(description), description);
-  });
-
-  propertyIsEnumerableModule.f = $propertyIsEnumerable;
-  definePropertyModule.f = $defineProperty;
-  getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
-  getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
-  getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
-
-  wrappedWellKnownSymbolModule.f = function (name) {
-    return wrap(wellKnownSymbol(name), name);
-  };
-
-  if (DESCRIPTORS) {
-    // https://github.com/tc39/proposal-Symbol-description
-    nativeDefineProperty($Symbol[PROTOTYPE], 'description', {
-      configurable: true,
-      get: function description() {
-        return getInternalState(this).description;
-      }
-    });
-    if (!IS_PURE) {
-      redefine(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
-    }
-  }
-}
-
-$({ global: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
-  Symbol: $Symbol
-});
-
-$forEach(objectKeys(WellKnownSymbolsStore), function (name) {
-  defineWellKnownSymbol(name);
-});
-
-$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {
-  // `Symbol.for` method
-  // https://tc39.es/ecma262/#sec-symbol.for
-  'for': function (key) {
-    var string = String(key);
-    if (has(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
-    var symbol = $Symbol(string);
-    StringToSymbolRegistry[string] = symbol;
-    SymbolToStringRegistry[symbol] = string;
-    return symbol;
-  },
-  // `Symbol.keyFor` method
-  // https://tc39.es/ecma262/#sec-symbol.keyfor
-  keyFor: function keyFor(sym) {
-    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol');
-    if (has(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
-  },
-  useSetter: function () { USE_SETTER = true; },
-  useSimple: function () { USE_SETTER = false; }
-});
-
-$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {
-  // `Object.create` method
-  // https://tc39.es/ecma262/#sec-object.create
-  create: $create,
-  // `Object.defineProperty` method
-  // https://tc39.es/ecma262/#sec-object.defineproperty
-  defineProperty: $defineProperty,
-  // `Object.defineProperties` method
-  // https://tc39.es/ecma262/#sec-object.defineproperties
-  defineProperties: $defineProperties,
-  // `Object.getOwnPropertyDescriptor` method
-  // https://tc39.es/ecma262/#sec-object.getownpropertydescriptors
-  getOwnPropertyDescriptor: $getOwnPropertyDescriptor
-});
-
-$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {
-  // `Object.getOwnPropertyNames` method
-  // https://tc39.es/ecma262/#sec-object.getownpropertynames
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // `Object.getOwnPropertySymbols` method
-  // https://tc39.es/ecma262/#sec-object.getownpropertysymbols
-  getOwnPropertySymbols: $getOwnPropertySymbols
-});
-
-// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
-// https://bugs.chromium.org/p/v8/issues/detail?id=3443
-$({ target: 'Object', stat: true, forced: fails(function () { getOwnPropertySymbolsModule.f(1); }) }, {
-  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-    return getOwnPropertySymbolsModule.f(toObject(it));
-  }
-});
-
-// `JSON.stringify` method behavior with symbols
-// https://tc39.es/ecma262/#sec-json.stringify
-if ($stringify) {
-  var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL || fails(function () {
-    var symbol = $Symbol();
-    // MS Edge converts symbol values to JSON as {}
-    return $stringify([symbol]) != '[null]'
-      // WebKit converts symbol values to JSON as null
-      || $stringify({ a: symbol }) != '{}'
-      // V8 throws on boxed symbols
-      || $stringify(Object(symbol)) != '{}';
-  });
-
-  $({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
-    // eslint-disable-next-line no-unused-vars
-    stringify: function stringify(it, replacer, space) {
-      var args = [it];
-      var index = 1;
-      var $replacer;
-      while (arguments.length > index) args.push(arguments[index++]);
-      $replacer = replacer;
-      if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-      if (!isArray(replacer)) replacer = function (key, value) {
-        if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
-        if (!isSymbol(value)) return value;
-      };
-      args[1] = replacer;
-      return $stringify.apply(null, args);
-    }
-  });
-}
-
-// `Symbol.prototype[@@toPrimitive]` method
-// https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
-if (!$Symbol[PROTOTYPE][TO_PRIMITIVE]) {
-  createNonEnumerableProperty($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-}
-// `Symbol.prototype[@@toStringTag]` property
-// https://tc39.es/ecma262/#sec-symbol.prototype-@@tostringtag
-setToStringTag($Symbol, SYMBOL);
-
-hiddenKeys[HIDDEN] = true;
-
-
-/***/ }),
-
-/***/ "a630":
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__("23e7");
-var from = __webpack_require__("4df4");
-var checkCorrectnessOfIteration = __webpack_require__("1c7e");
-
-var INCORRECT_ITERATION = !checkCorrectnessOfIteration(function (iterable) {
-  Array.from(iterable);
-});
-
-// `Array.from` method
-// https://tc39.es/ecma262/#sec-array.from
-$({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
-  from: from
-});
 
 
 /***/ }),
@@ -3274,92 +2514,6 @@ module.exports = function () {
 
 /***/ }),
 
-/***/ "ae40":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("83ab");
-var fails = __webpack_require__("d039");
-var has = __webpack_require__("5135");
-
-var defineProperty = Object.defineProperty;
-var cache = {};
-
-var thrower = function (it) { throw it; };
-
-module.exports = function (METHOD_NAME, options) {
-  if (has(cache, METHOD_NAME)) return cache[METHOD_NAME];
-  if (!options) options = {};
-  var method = [][METHOD_NAME];
-  var ACCESSORS = has(options, 'ACCESSORS') ? options.ACCESSORS : false;
-  var argument0 = has(options, 0) ? options[0] : thrower;
-  var argument1 = has(options, 1) ? options[1] : undefined;
-
-  return cache[METHOD_NAME] = !!method && !fails(function () {
-    if (ACCESSORS && !DESCRIPTORS) return true;
-    var O = { length: -1 };
-
-    if (ACCESSORS) defineProperty(O, 1, { enumerable: true, get: thrower });
-    else O[1] = 1;
-
-    method.call(O, argument0, argument1);
-  });
-};
-
-
-/***/ }),
-
-/***/ "ae93":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fails = __webpack_require__("d039");
-var getPrototypeOf = __webpack_require__("e163");
-var createNonEnumerableProperty = __webpack_require__("9112");
-var has = __webpack_require__("5135");
-var wellKnownSymbol = __webpack_require__("b622");
-var IS_PURE = __webpack_require__("c430");
-
-var ITERATOR = wellKnownSymbol('iterator');
-var BUGGY_SAFARI_ITERATORS = false;
-
-var returnThis = function () { return this; };
-
-// `%IteratorPrototype%` object
-// https://tc39.es/ecma262/#sec-%iteratorprototype%-object
-var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
-
-if ([].keys) {
-  arrayIterator = [].keys();
-  // Safari 8 has buggy iterators w/o `next`
-  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
-  else {
-    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
-    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
-  }
-}
-
-var NEW_ITERATOR_PROTOTYPE = IteratorPrototype == undefined || fails(function () {
-  var test = {};
-  // FF44- legacy iterators case
-  return IteratorPrototype[ITERATOR].call(test) !== test;
-});
-
-if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype = {};
-
-// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-if ((!IS_PURE || NEW_ITERATOR_PROTOTYPE) && !has(IteratorPrototype, ITERATOR)) {
-  createNonEnumerableProperty(IteratorPrototype, ITERATOR, returnThis);
-}
-
-module.exports = {
-  IteratorPrototype: IteratorPrototype,
-  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
-};
-
-
-/***/ }),
-
 /***/ "b041":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3373,35 +2527,6 @@ var classof = __webpack_require__("f5df");
 module.exports = TO_STRING_TAG_SUPPORT ? {}.toString : function toString() {
   return '[object ' + classof(this) + ']';
 };
-
-
-/***/ }),
-
-/***/ "b0c0":
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__("83ab");
-var defineProperty = __webpack_require__("9bf2").f;
-
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
-
-// Function instances `.name` property
-// https://tc39.es/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
-  });
-}
 
 
 /***/ }),
@@ -3512,85 +2637,6 @@ module.exports = function (name) {
     if (NATIVE_SYMBOL && has(Symbol, name)) WellKnownSymbolsStore[name] = Symbol[name];
     else WellKnownSymbolsStore[name] = createWellKnownSymbol('Symbol.' + name);
   } return WellKnownSymbolsStore[name];
-};
-
-
-/***/ }),
-
-/***/ "b727":
-/***/ (function(module, exports, __webpack_require__) {
-
-var bind = __webpack_require__("0366");
-var IndexedObject = __webpack_require__("44ad");
-var toObject = __webpack_require__("7b0b");
-var toLength = __webpack_require__("50c4");
-var arraySpeciesCreate = __webpack_require__("65f0");
-
-var push = [].push;
-
-// `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterOut }` methods implementation
-var createMethod = function (TYPE) {
-  var IS_MAP = TYPE == 1;
-  var IS_FILTER = TYPE == 2;
-  var IS_SOME = TYPE == 3;
-  var IS_EVERY = TYPE == 4;
-  var IS_FIND_INDEX = TYPE == 6;
-  var IS_FILTER_OUT = TYPE == 7;
-  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-  return function ($this, callbackfn, that, specificCreate) {
-    var O = toObject($this);
-    var self = IndexedObject(O);
-    var boundFunction = bind(callbackfn, that, 3);
-    var length = toLength(self.length);
-    var index = 0;
-    var create = specificCreate || arraySpeciesCreate;
-    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_OUT ? create($this, 0) : undefined;
-    var value, result;
-    for (;length > index; index++) if (NO_HOLES || index in self) {
-      value = self[index];
-      result = boundFunction(value, index, O);
-      if (TYPE) {
-        if (IS_MAP) target[index] = result; // map
-        else if (result) switch (TYPE) {
-          case 3: return true;              // some
-          case 5: return value;             // find
-          case 6: return index;             // findIndex
-          case 2: push.call(target, value); // filter
-        } else switch (TYPE) {
-          case 4: return false;             // every
-          case 7: push.call(target, value); // filterOut
-        }
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
-  };
-};
-
-module.exports = {
-  // `Array.prototype.forEach` method
-  // https://tc39.es/ecma262/#sec-array.prototype.foreach
-  forEach: createMethod(0),
-  // `Array.prototype.map` method
-  // https://tc39.es/ecma262/#sec-array.prototype.map
-  map: createMethod(1),
-  // `Array.prototype.filter` method
-  // https://tc39.es/ecma262/#sec-array.prototype.filter
-  filter: createMethod(2),
-  // `Array.prototype.some` method
-  // https://tc39.es/ecma262/#sec-array.prototype.some
-  some: createMethod(3),
-  // `Array.prototype.every` method
-  // https://tc39.es/ecma262/#sec-array.prototype.every
-  every: createMethod(4),
-  // `Array.prototype.find` method
-  // https://tc39.es/ecma262/#sec-array.prototype.find
-  find: createMethod(5),
-  // `Array.prototype.findIndex` method
-  // https://tc39.es/ecma262/#sec-array.prototype.findIndex
-  findIndex: createMethod(6),
-  // `Array.prototype.filterOut` method
-  // https://github.com/tc39/proposal-array-filtering
-  filterOut: createMethod(7)
 };
 
 
@@ -3902,18 +2948,6 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 
 /***/ }),
 
-/***/ "d28b":
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineWellKnownSymbol = __webpack_require__("746f");
-
-// `Symbol.iterator` well-known symbol
-// https://tc39.es/ecma262/#sec-symbol.iterator
-defineWellKnownSymbol('iterator');
-
-
-/***/ }),
-
 /***/ "d2bb":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4031,46 +3065,6 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "ddb0":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("da84");
-var DOMIterables = __webpack_require__("fdbc");
-var ArrayIteratorMethods = __webpack_require__("e260");
-var createNonEnumerableProperty = __webpack_require__("9112");
-var wellKnownSymbol = __webpack_require__("b622");
-
-var ITERATOR = wellKnownSymbol('iterator');
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var ArrayValues = ArrayIteratorMethods.values;
-
-for (var COLLECTION_NAME in DOMIterables) {
-  var Collection = global[COLLECTION_NAME];
-  var CollectionPrototype = Collection && Collection.prototype;
-  if (CollectionPrototype) {
-    // some Chrome versions have non-configurable methods on DOMTokenList
-    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
-      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
-    } catch (error) {
-      CollectionPrototype[ITERATOR] = ArrayValues;
-    }
-    if (!CollectionPrototype[TO_STRING_TAG]) {
-      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
-    }
-    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
-      // some Chrome versions have non-configurable methods on DOMTokenList
-      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
-        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-      } catch (error) {
-        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
-      }
-    }
-  }
-}
-
-
-/***/ }),
-
 /***/ "df75":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4086,163 +3080,6 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
-/***/ "e01a":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// `Symbol.prototype.description` getter
-// https://tc39.es/ecma262/#sec-symbol.prototype.description
-
-var $ = __webpack_require__("23e7");
-var DESCRIPTORS = __webpack_require__("83ab");
-var global = __webpack_require__("da84");
-var has = __webpack_require__("5135");
-var isObject = __webpack_require__("861d");
-var defineProperty = __webpack_require__("9bf2").f;
-var copyConstructorProperties = __webpack_require__("e893");
-
-var NativeSymbol = global.Symbol;
-
-if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in NativeSymbol.prototype) ||
-  // Safari 12 bug
-  NativeSymbol().description !== undefined
-)) {
-  var EmptyStringDescriptionStore = {};
-  // wrap Symbol constructor for correct work with undefined description
-  var SymbolWrapper = function Symbol() {
-    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : String(arguments[0]);
-    var result = this instanceof SymbolWrapper
-      ? new NativeSymbol(description)
-      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
-      : description === undefined ? NativeSymbol() : NativeSymbol(description);
-    if (description === '') EmptyStringDescriptionStore[result] = true;
-    return result;
-  };
-  copyConstructorProperties(SymbolWrapper, NativeSymbol);
-  var symbolPrototype = SymbolWrapper.prototype = NativeSymbol.prototype;
-  symbolPrototype.constructor = SymbolWrapper;
-
-  var symbolToString = symbolPrototype.toString;
-  var native = String(NativeSymbol('test')) == 'Symbol(test)';
-  var regexp = /^Symbol\((.*)\)[^)]+$/;
-  defineProperty(symbolPrototype, 'description', {
-    configurable: true,
-    get: function description() {
-      var symbol = isObject(this) ? this.valueOf() : this;
-      var string = symbolToString.call(symbol);
-      if (has(EmptyStringDescriptionStore, symbol)) return '';
-      var desc = native ? string.slice(7, -1) : string.replace(regexp, '$1');
-      return desc === '' ? undefined : desc;
-    }
-  });
-
-  $({ global: true, forced: true }, {
-    Symbol: SymbolWrapper
-  });
-}
-
-
-/***/ }),
-
-/***/ "e163":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("5135");
-var toObject = __webpack_require__("7b0b");
-var sharedKey = __webpack_require__("f772");
-var CORRECT_PROTOTYPE_GETTER = __webpack_require__("e177");
-
-var IE_PROTO = sharedKey('IE_PROTO');
-var ObjectPrototype = Object.prototype;
-
-// `Object.getPrototypeOf` method
-// https://tc39.es/ecma262/#sec-object.getprototypeof
-module.exports = CORRECT_PROTOTYPE_GETTER ? Object.getPrototypeOf : function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectPrototype : null;
-};
-
-
-/***/ }),
-
-/***/ "e177":
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__("d039");
-
-module.exports = !fails(function () {
-  function F() { /* empty */ }
-  F.prototype.constructor = null;
-  return Object.getPrototypeOf(new F()) !== F.prototype;
-});
-
-
-/***/ }),
-
-/***/ "e260":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toIndexedObject = __webpack_require__("fc6a");
-var addToUnscopables = __webpack_require__("44d2");
-var Iterators = __webpack_require__("3f8c");
-var InternalStateModule = __webpack_require__("69f3");
-var defineIterator = __webpack_require__("7dd0");
-
-var ARRAY_ITERATOR = 'Array Iterator';
-var setInternalState = InternalStateModule.set;
-var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
-
-// `Array.prototype.entries` method
-// https://tc39.es/ecma262/#sec-array.prototype.entries
-// `Array.prototype.keys` method
-// https://tc39.es/ecma262/#sec-array.prototype.keys
-// `Array.prototype.values` method
-// https://tc39.es/ecma262/#sec-array.prototype.values
-// `Array.prototype[@@iterator]` method
-// https://tc39.es/ecma262/#sec-array.prototype-@@iterator
-// `CreateArrayIterator` internal method
-// https://tc39.es/ecma262/#sec-createarrayiterator
-module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
-  setInternalState(this, {
-    type: ARRAY_ITERATOR,
-    target: toIndexedObject(iterated), // target
-    index: 0,                          // next index
-    kind: kind                         // kind
-  });
-// `%ArrayIteratorPrototype%.next` method
-// https://tc39.es/ecma262/#sec-%arrayiteratorprototype%.next
-}, function () {
-  var state = getInternalState(this);
-  var target = state.target;
-  var kind = state.kind;
-  var index = state.index++;
-  if (!target || index >= target.length) {
-    state.target = undefined;
-    return { value: undefined, done: true };
-  }
-  if (kind == 'keys') return { value: index, done: false };
-  if (kind == 'values') return { value: target[index], done: false };
-  return { value: [index, target[index]], done: false };
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values%
-// https://tc39.es/ecma262/#sec-createunmappedargumentsobject
-// https://tc39.es/ecma262/#sec-createmappedargumentsobject
-Iterators.Arguments = Iterators.Array;
-
-// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-
-/***/ }),
-
 /***/ "e2cc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4252,16 +3089,6 @@ module.exports = function (target, src, options) {
   for (var key in src) redefine(target, key, src[key], options);
   return target;
 };
-
-
-/***/ }),
-
-/***/ "e538":
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__("b622");
-
-exports.f = wellKnownSymbol;
 
 
 /***/ }),
@@ -4701,20 +3528,6 @@ module.exports = function (target, source) {
 
 /***/ }),
 
-/***/ "e8b5":
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__("c6b6");
-
-// `IsArray` abstract operation
-// https://tc39.es/ecma262/#sec-isarray
-module.exports = Array.isArray || function isArray(arg) {
-  return classof(arg) == 'Array';
-};
-
-
-/***/ }),
-
 /***/ "e95a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4837,8 +3650,8 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=0dc6db1a&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs",class:("vcs-" + _vm.type)},[(_vm.type !== 'infinite')?_c('select-bar',{attrs:{"currentDate":_vm.currentDate,"nextMonth":_vm.nextMonth,"years":_vm.years,"type":_vm.type,"selectionType":_vm.selectionType,"monthFormat":_vm.monthFormat,"minDate":_vm.minDate,"maxDate":_vm.maxDate,"locale":_vm.locale},on:{"change":_vm.changeCurrentDate,"change-type":function($event){_vm.selectionType = $event}},scopedSlots:_vm._u([{key:"arrow-left",fn:function(){return [_vm._t("arrow-left")]},proxy:true},{key:"arrow-right",fn:function(){return [_vm._t("arrow-right")]},proxy:true}],null,true)}):_vm._e(),(_vm.type === 'range' || (_vm.type === 'single' && _vm.selectionType === 'date') || _vm.type === 'infinite')?_vm._l((_vm.monthPanels),function(month,monthIndex){return _c('calendar',{key:monthIndex,attrs:{"month":month,"weekStartsOn":_vm.weekStartsOn,"dayFormat":_vm.dayFormat,"weekdayFormat":_vm.weekdayFormat,"infiniteMonthFormat":_vm.infiniteMonthFormat,"locale":_vm.locale,"value":_vm.value,"type":_vm.type,"selecting":_vm.clickCount === 1,"dayUnderCursor":_vm.dayUnderCursor,"minDate":_vm.minDate,"maxDate":_vm.maxDate},on:{"day-click":_vm.dayClick,"hover":_vm.dayHover},scopedSlots:_vm._u([{key:"day",fn:function(ref){
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=091be941&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs",class:[("vcs-" + _vm.type), { 'vcs-infinite': _vm.infinite }]},[(!_vm.infinite || _vm.type == 'month' || _vm.type == 'year')?_c('select-bar',{attrs:{"currentDate":_vm.currentDate,"nextMonth":_vm.nextMonth,"years":_vm.years,"type":_vm.type,"selectionType":_vm.selectionType,"monthFormat":_vm.monthFormat,"minDate":_vm.minDate,"maxDate":_vm.maxDate,"locale":_vm.locale},on:{"change":_vm.changeCurrentDate,"change-type":function($event){_vm.selectionType = $event}},scopedSlots:_vm._u([{key:"arrow-left",fn:function(){return [_vm._t("arrow-left")]},proxy:true},{key:"arrow-right",fn:function(){return [_vm._t("arrow-right")]},proxy:true}],null,true)}):_vm._e(),(_vm.type === 'range' || (_vm.type === 'single' && _vm.selectionType === 'date'))?_vm._l((_vm.monthPanels),function(month,monthIndex){return _c('calendar',{key:monthIndex,attrs:{"month":month,"weekStartsOn":_vm.weekStartsOn,"dayFormat":_vm.dayFormat,"weekdayFormat":_vm.weekdayFormat,"infiniteMonthFormat":_vm.infiniteMonthFormat,"locale":_vm.locale,"value":_vm.value,"type":_vm.type,"selecting":_vm.clickCount === 1,"dayUnderCursor":_vm.dayUnderCursor,"minDate":_vm.minDate,"maxDate":_vm.maxDate,"infinite":_vm.infinite},on:{"day-click":_vm.dayClick,"hover":_vm.dayHover},scopedSlots:_vm._u([{key:"day",fn:function(ref){
 var day = ref.day;
 return [_vm._t("day",null,{"day":day})]}},{key:"day-inside",fn:function(ref){
 var day = ref.day;
@@ -4850,7 +3663,7 @@ return [_vm._t("weekday",null,{"day":day,"formatWeekday":formatWeekday})]}}],nul
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=0dc6db1a&
+// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=091be941&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -4923,88 +3736,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.js
-var es_symbol = __webpack_require__("a4d3");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.description.js
-var es_symbol_description = __webpack_require__("e01a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.symbol.iterator.js
-var es_symbol_iterator = __webpack_require__("d28b");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.from.js
-var es_array_from = __webpack_require__("a630");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
-var es_array_iterator = __webpack_require__("e260");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.iterator.js
-var es_string_iterator = __webpack_require__("3ca3");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom-collections.iterator.js
-var web_dom_collections_iterator = __webpack_require__("ddb0");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-
-
-
-
-
-
-
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
-var es_array_slice = __webpack_require__("fb6a");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.function.name.js
-var es_function_name = __webpack_require__("b0c0");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-
-
-
-
-
-
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 // CONCATENATED MODULE: ./node_modules/date-fns/esm/_lib/toInteger/index.js
 function toInteger(dirtyNumber) {
@@ -5633,9 +4364,9 @@ var now = function() {
 
 
 /** Built-in value references. */
-var _Symbol_Symbol = _root["a" /* default */].Symbol;
+var Symbol = _root["a" /* default */].Symbol;
 
-/* harmony default export */ var _Symbol = (_Symbol_Symbol);
+/* harmony default export */ var _Symbol = (Symbol);
 
 // CONCATENATED MODULE: ./node_modules/lodash-es/_getRawTag.js
 
@@ -6719,26 +5450,26 @@ var en_US_locale = {
   }
 };
 /* harmony default export */ var en_US = (en_US_locale);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=61a9af04&
-var calendarvue_type_template_id_61a9af04_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('table',{staticClass:"vcs-table"},[(_vm.type === 'infinite')?_c('tr',{staticClass:"vcs-table__row vcs-table__row--title"},[_c('td',{staticClass:"vcs-table__cell vcs-table__cell--title",attrs:{"colspan":"7"}},[_vm._v(_vm._s(_vm.formatMonth(_vm.month)))])]):_vm._e(),_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell vcs-table__cell--weekday"},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day,"formatWeekday":_vm.formatWeekday})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
-                'vcs-table__cell--disabled': !day.isInMonth || day.disabled,
-                'vcs-table__cell--clickable': _vm.isClickable(day),
-                'vcs-table__cell--selected': day.selected,
-                'vcs-table__cell--start': day.start,
-                'vcs-table__cell--end': day.end,
-                'vcs-table__cell--between': day.between
-            }},[_vm._t("day",[_c('div',{staticClass:"vcs-table__day",class:{
-                        'vcs-table__day--disabled': !day.isInMonth || day.disabled,
-                        'vcs-table__day--clickable': _vm.isClickable(day),
-                        'vcs-table__day--selected': day.selected,
-                        'vcs-table__day--start': day.start,
-                        'vcs-table__day--end': day.end,
-                        'vcs-table__day--between': day.between
-                    },on:{"mousedown":function($event){return _vm.dayMouseDown(day)},"mouseover":function($event){return _vm.dayHover(day)}}},[_vm._t("day-inside",[_vm._v(" "+_vm._s(_vm.formatDay(day.date))+" ")],{"day":day,"formatDay":_vm.formatDay})],2)],{"day":day})],2)}),0)})],2)}
-var calendarvue_type_template_id_61a9af04_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/calendar.vue?vue&type=template&id=1a95ebb3&
+var calendarvue_type_template_id_1a95ebb3_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('table',{staticClass:"vcs-table"},[(_vm.infinite)?_c('tr',{staticClass:"vcs-table__row vcs-table__row--title"},[_c('td',{staticClass:"vcs-table__cell vcs-table__cell--title",attrs:{"colspan":"7"}},[_vm._v(_vm._s(_vm.formatMonth(_vm.month)))])]):_vm._e(),_c('tr',{staticClass:"vcs-table__row vcs-table__row--weekdays"},_vm._l((_vm.weekdays),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell vcs-table__cell--weekday"},[_vm._t("weekday",[_c('div',{staticClass:"vcs-table__weekday"},[_vm._v(_vm._s(_vm.formatWeekday(day)))])],{"day":day,"formatWeekday":_vm.formatWeekday})],2)}),0),_vm._l((_vm.monthArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(day,dayIndex){return _c('td',{key:dayIndex,staticClass:"vcs-table__cell",class:{
+				'vcs-table__cell--disabled': !day.isInMonth || day.disabled,
+				'vcs-table__cell--clickable': _vm.isClickable(day),
+				'vcs-table__cell--selected': day.selected,
+				'vcs-table__cell--start': day.start,
+				'vcs-table__cell--end': day.end,
+				'vcs-table__cell--between': day.between,
+			}},[_vm._t("day",[_c('div',{staticClass:"vcs-table__day",class:{
+						'vcs-table__day--disabled': !day.isInMonth || day.disabled,
+						'vcs-table__day--clickable': _vm.isClickable(day),
+						'vcs-table__day--selected': day.selected,
+						'vcs-table__day--start': day.start,
+						'vcs-table__day--end': day.end,
+						'vcs-table__day--between': day.between,
+					},on:{"mousedown":function($event){return _vm.dayMouseDown(day)},"mouseover":function($event){return _vm.dayHover(day)}}},[_vm._t("day-inside",[_vm._v(" "+_vm._s(_vm.formatDay(day.date))+" ")],{"day":day,"formatDay":_vm.formatDay})],2)],{"day":day})],2)}),0)})],2)}
+var calendarvue_type_template_id_1a95ebb3_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=61a9af04&
+// CONCATENATED MODULE: ./src/components/calendar.vue?vue&type=template&id=1a95ebb3&
 
 // CONCATENATED MODULE: ./node_modules/date-fns/esm/eachDayOfInterval/index.js
 
@@ -9865,7 +8596,8 @@ function isEmpty(value) {
     dayUnderCursor: Object,
     minDate: Date,
     maxDate: Date,
-    infiniteMonthFormat: String
+    infiniteMonthFormat: String,
+    infinite: Boolean
   },
   computed: {
     weekdays: function weekdays() {
@@ -10165,8 +8897,8 @@ function normalizeComponent (
 
 var component = normalizeComponent(
   components_calendarvue_type_script_lang_js_,
-  calendarvue_type_template_id_61a9af04_render,
-  calendarvue_type_template_id_61a9af04_staticRenderFns,
+  calendarvue_type_template_id_1a95ebb3_render,
+  calendarvue_type_template_id_1a95ebb3_staticRenderFns,
   false,
   null,
   null,
@@ -10617,7 +9349,7 @@ var month_select_component = normalizeComponent(
 
 
 
-
+//
 //
 //
 //
@@ -10732,7 +9464,11 @@ var month_select_component = normalizeComponent(
     },
     minDate: Date,
     maxDate: Date,
-    parentNode: Object
+    parentNode: Object,
+    infinite: {
+      type: Boolean,
+      default: false
+    }
   },
   data: function data() {
     return {
@@ -10754,10 +9490,13 @@ var month_select_component = normalizeComponent(
       });
     },
     monthPanels: function monthPanels() {
+      if (this.infinite) {
+        return this.infiniteMonths;
+      }
+
       var months = {
         single: [this.currentDate],
-        range: [this.currentDate, this.nextMonth],
-        infinite: _toConsumableArray(this.infiniteMonths)
+        range: [this.currentDate, this.nextMonth]
       };
       return months[this.type];
     },
@@ -10852,6 +9591,7 @@ var month_select_component = normalizeComponent(
       }
 
       this.parentNodeElement.addEventListener('scroll', this.scrollThrottled);
+      console.log(this.$el, this.$el.children);
       this.tableHeight = this.$el.children[0].offsetHeight;
     },
     removeScrollListener: function removeScrollListener() {
@@ -10913,44 +9653,62 @@ var month_select_component = normalizeComponent(
                     _this.selectionType = 'year';
                   }
 
-                  if (!(_this.type === 'infinite')) {
-                    _context.next = 13;
-                    break;
-                  }
-
-                  if (_this.parentNodeElement) {
-                    _context.next = 6;
-                    break;
-                  }
-
-                  return _context.abrupt("return");
-
-                case 6:
-                  _this.selectionType = null;
-                  _context.next = 9;
-                  return _this.$nextTick();
-
-                case 9:
-                  // wait for tables to appear
-                  _this.addScrollListener();
-
-                  _this.parentNodeElement.scrollTop = _this.tableHeight * 5;
-                  _context.next = 16;
-                  break;
-
-                case 13:
-                  _context.next = 15;
-                  return _this.$nextTick();
-
-                case 15:
-                  _this.removeScrollListener();
-
-                case 16:
+                case 3:
                 case "end":
                   return _context.stop();
               }
             }
           }, _callee);
+        }))();
+      }
+    },
+    infinite: {
+      immediate: true,
+      handler: function handler() {
+        var _this2 = this;
+
+        return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  if (!_this2.infinite) {
+                    _context2.next = 9;
+                    break;
+                  }
+
+                  if (_this2.parentNodeElement) {
+                    _context2.next = 3;
+                    break;
+                  }
+
+                  return _context2.abrupt("return");
+
+                case 3:
+                  _context2.next = 5;
+                  return _this2.$nextTick();
+
+                case 5:
+                  // wait for tables to appear
+                  _this2.addScrollListener();
+
+                  _this2.parentNodeElement.scrollTop = _this2.tableHeight * 5;
+                  _context2.next = 12;
+                  break;
+
+                case 9:
+                  _context2.next = 11;
+                  return _this2.$nextTick();
+
+                case 11:
+                  _this2.removeScrollListener();
+
+                case 12:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2);
         }))();
       }
     },
@@ -10963,7 +9721,7 @@ var month_select_component = normalizeComponent(
   mounted: function mounted() {
     this.parentNodeElement = this.parentNode ? this.parentNode : this.$el.parentNode;
 
-    if (this.type === 'infinite') {
+    if (this.infinite) {
       this.selectionType = null;
       this.addScrollListener();
       this.parentNodeElement.scrollTop = this.tableHeight * 5;
@@ -11010,63 +9768,6 @@ var v_simple_calendar_component = normalizeComponent(
 
 /***/ }),
 
-/***/ "fb6a":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__("23e7");
-var isObject = __webpack_require__("861d");
-var isArray = __webpack_require__("e8b5");
-var toAbsoluteIndex = __webpack_require__("23cb");
-var toLength = __webpack_require__("50c4");
-var toIndexedObject = __webpack_require__("fc6a");
-var createProperty = __webpack_require__("8418");
-var wellKnownSymbol = __webpack_require__("b622");
-var arrayMethodHasSpeciesSupport = __webpack_require__("1dde");
-var arrayMethodUsesToLength = __webpack_require__("ae40");
-
-var HAS_SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('slice');
-var USES_TO_LENGTH = arrayMethodUsesToLength('slice', { ACCESSORS: true, 0: 0, 1: 2 });
-
-var SPECIES = wellKnownSymbol('species');
-var nativeSlice = [].slice;
-var max = Math.max;
-
-// `Array.prototype.slice` method
-// https://tc39.es/ecma262/#sec-array.prototype.slice
-// fallback for not array-like ES3 strings and DOM objects
-$({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT || !USES_TO_LENGTH }, {
-  slice: function slice(start, end) {
-    var O = toIndexedObject(this);
-    var length = toLength(O.length);
-    var k = toAbsoluteIndex(start, length);
-    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
-    var Constructor, result, n;
-    if (isArray(O)) {
-      Constructor = O.constructor;
-      // cross-realm fallback
-      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
-        Constructor = undefined;
-      } else if (isObject(Constructor)) {
-        Constructor = Constructor[SPECIES];
-        if (Constructor === null) Constructor = undefined;
-      }
-      if (Constructor === Array || Constructor === undefined) {
-        return nativeSlice.call(O, k, fin);
-      }
-    }
-    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
-    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
-    result.length = n;
-    return result;
-  }
-});
-
-
-/***/ }),
-
 /***/ "fc6a":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11076,48 +9777,6 @@ var requireObjectCoercible = __webpack_require__("1d80");
 
 module.exports = function (it) {
   return IndexedObject(requireObjectCoercible(it));
-};
-
-
-/***/ }),
-
-/***/ "fdbc":
-/***/ (function(module, exports) {
-
-// iterable DOM collections
-// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-module.exports = {
-  CSSRuleList: 0,
-  CSSStyleDeclaration: 0,
-  CSSValueList: 0,
-  ClientRectList: 0,
-  DOMRectList: 0,
-  DOMStringList: 0,
-  DOMTokenList: 1,
-  DataTransferItemList: 0,
-  FileList: 0,
-  HTMLAllCollection: 0,
-  HTMLCollection: 0,
-  HTMLFormElement: 0,
-  HTMLSelectElement: 0,
-  MediaList: 0,
-  MimeTypeArray: 0,
-  NamedNodeMap: 0,
-  NodeList: 1,
-  PaintRequestList: 0,
-  Plugin: 0,
-  PluginArray: 0,
-  SVGLengthList: 0,
-  SVGNumberList: 0,
-  SVGPathSegList: 0,
-  SVGPointList: 0,
-  SVGStringList: 0,
-  SVGTransformList: 0,
-  SourceBufferList: 0,
-  StyleSheetList: 0,
-  TextTrackCueList: 0,
-  TextTrackList: 0,
-  TouchList: 0
 };
 
 

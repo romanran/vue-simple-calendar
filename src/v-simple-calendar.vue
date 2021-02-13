@@ -1,7 +1,7 @@
 <template>
-	<div class="vcs" :class="`vcs-${type}`">
+	<div class="vcs" :class="[`vcs-${type}`, { 'vcs-infinite': infinite }]">
 		<select-bar
-			v-if="type !== 'infinite'"
+			v-if="!infinite || type == 'month' || type == 'year'"
 			:currentDate="currentDate"
 			:nextMonth="nextMonth"
 			:years="years"
@@ -17,7 +17,7 @@
 			<template v-slot:arrow-left><slot name="arrow-left"></slot></template>
 			<template v-slot:arrow-right><slot name="arrow-right"></slot></template>
 		</select-bar>
-		<template v-if="type === 'range' || (type === 'single' && selectionType === 'date') || type === 'infinite'">
+		<template v-if="type === 'range' || (type === 'single' && selectionType === 'date')">
 			<calendar
 				v-for="(month, monthIndex) in monthPanels"
 				:key="monthIndex"
@@ -33,6 +33,7 @@
 				:dayUnderCursor="dayUnderCursor"
 				:minDate="minDate"
 				:maxDate="maxDate"
+				:infinite="infinite"
 				@day-click="dayClick"
 				@hover="dayHover"
 			>
@@ -115,6 +116,10 @@ export default {
 		minDate: Date,
 		maxDate: Date,
 		parentNode: Object,
+		infinite: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -134,10 +139,12 @@ export default {
 			return add(this.currentDate, { months: 1 })
 		},
 		monthPanels() {
+			if (this.infinite) {
+				return this.infiniteMonths
+			}
 			const months = {
 				single: [this.currentDate],
 				range: [this.currentDate, this.nextMonth],
-				infinite: [...this.infiniteMonths],
 			}
 			return months[this.type]
 		},
@@ -226,6 +233,7 @@ export default {
 				return false
 			}
 			this.parentNodeElement.addEventListener('scroll', this.scrollThrottled)
+			console.log(this.$el, this.$el.children)
 			this.tableHeight = this.$el.children[0].offsetHeight
 		},
 		removeScrollListener() {
@@ -267,9 +275,13 @@ export default {
 				if (this.type === 'year') {
 					this.selectionType = 'year'
 				}
-				if (this.type === 'infinite') {
+			},
+		},
+		infinite: {
+			immediate: true,
+			async handler() {
+				if (this.infinite) {
 					if (!this.parentNodeElement) return
-					this.selectionType = null
 					await this.$nextTick() // wait for tables to appear
 					this.addScrollListener()
 					this.parentNodeElement.scrollTop = this.tableHeight * 5
@@ -285,7 +297,7 @@ export default {
 	},
 	mounted() {
 		this.parentNodeElement = this.parentNode ? this.parentNode : this.$el.parentNode
-		if (this.type === 'infinite') {
+		if (this.infinite) {
 			this.selectionType = null
 			this.addScrollListener()
 			this.parentNodeElement.scrollTop = this.tableHeight * 5
