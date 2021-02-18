@@ -233,7 +233,6 @@ export default {
 				return false
 			}
 			this.parentNodeElement.addEventListener('scroll', this.scrollThrottled)
-			console.log(this.$el, this.$el.children)
 			this.tableHeight = this.$el.children[0].offsetHeight
 		},
 		removeScrollListener() {

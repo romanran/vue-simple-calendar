@@ -35,9 +35,9 @@ export default {
 		monthsArray() {
 			const monthArray = []
 			let monthIndex = 0
-			for (let row = 0; row < 3; row++) {
+			for (let row = 0; row < 4; row++) {
 				const rowArray = []
-				for (let cell = 0; cell < 4; cell++) {
+				for (let cell = 0; cell < 3; cell++) {
 					const date = this.months[monthIndex]
 					const monthObject = {
 						date: date,
