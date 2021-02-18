@@ -4,7 +4,7 @@
 			<td
 				v-for="(year, yearIndex) in row"
 				:key="yearIndex"
-				class="vcs-table__cell"
+				class="vcs-table__cell vcs-year-select__cell"
 				:class="{ 'vcs-year-select__cell--selected': year.selected, 'vcs-year-select__cel--disabled': year.disabled }"
 			>
 				<div
