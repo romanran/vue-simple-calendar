@@ -3650,7 +3650,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=091be941&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/v-simple-calendar.vue?vue&type=template&id=dba607ec&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs",class:[("vcs-" + _vm.type), { 'vcs-infinite': _vm.infinite }]},[(!_vm.infinite || _vm.type == 'month' || _vm.type == 'year')?_c('select-bar',{attrs:{"currentDate":_vm.currentDate,"nextMonth":_vm.nextMonth,"years":_vm.years,"type":_vm.type,"selectionType":_vm.selectionType,"monthFormat":_vm.monthFormat,"minDate":_vm.minDate,"maxDate":_vm.maxDate,"locale":_vm.locale},on:{"change":_vm.changeCurrentDate,"change-type":function($event){_vm.selectionType = $event}},scopedSlots:_vm._u([{key:"arrow-left",fn:function(){return [_vm._t("arrow-left")]},proxy:true},{key:"arrow-right",fn:function(){return [_vm._t("arrow-right")]},proxy:true}],null,true)}):_vm._e(),(_vm.type === 'range' || (_vm.type === 'single' && _vm.selectionType === 'date'))?_vm._l((_vm.monthPanels),function(month,monthIndex){return _c('calendar',{key:monthIndex,attrs:{"month":month,"weekStartsOn":_vm.weekStartsOn,"dayFormat":_vm.dayFormat,"weekdayFormat":_vm.weekdayFormat,"infiniteMonthFormat":_vm.infiniteMonthFormat,"locale":_vm.locale,"value":_vm.value,"type":_vm.type,"selecting":_vm.clickCount === 1,"dayUnderCursor":_vm.dayUnderCursor,"minDate":_vm.minDate,"maxDate":_vm.maxDate,"infinite":_vm.infinite},on:{"day-click":_vm.dayClick,"hover":_vm.dayHover},scopedSlots:_vm._u([{key:"day",fn:function(ref){
 var day = ref.day;
 return [_vm._t("day",null,{"day":day})]}},{key:"day-inside",fn:function(ref){
@@ -3663,7 +3663,7 @@ return [_vm._t("weekday",null,{"day":day,"formatWeekday":formatWeekday})]}}],nul
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=091be941&
+// CONCATENATED MODULE: ./src/v-simple-calendar.vue?vue&type=template&id=dba607ec&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -9204,12 +9204,12 @@ var year_select_component = normalizeComponent(
 )
 
 /* harmony default export */ var year_select = (year_select_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/month-select.vue?vue&type=template&id=464ad58e&
-var month_selectvue_type_template_id_464ad58e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-month-select"},_vm._l((_vm.monthsArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(month,monthIndex){return _c('td',{key:monthIndex,staticClass:"vcs-table__cell vcs-month-select__cell",class:{ 'vcs-month-select__cell--selected': month.selected, 'vcs-month-select__cell--disabled': month.disabled }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(month.date),expression:"month.date"}],staticClass:"vcs-month-select__month",class:{ 'vcs-month-select__month--selected': month.selected, 'vcs-month-select__month--disabled': month.disabled },on:{"click":function($event){return _vm.$emit('change', month.date)}}},[_vm._v(" "+_vm._s(_vm.formatMonth(month.date))+" ")])])}),0)}),0)}
-var month_selectvue_type_template_id_464ad58e_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"406225ae-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/month-select.vue?vue&type=template&id=493175e4&
+var month_selectvue_type_template_id_493175e4_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vcs-month-select"},_vm._l((_vm.monthsArray),function(row,rowIndex){return _c('tr',{key:rowIndex,staticClass:"vcs-table__row"},_vm._l((row),function(month,monthIndex){return _c('td',{key:monthIndex,staticClass:"vcs-table__cell vcs-month-select__cell",class:{ 'vcs-month-select__cell--selected': month.selected, 'vcs-month-select__cell--disabled': month.disabled }},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(month.date),expression:"month.date"}],staticClass:"vcs-month-select__month",class:{ 'vcs-month-select__month--selected': month.selected, 'vcs-month-select__month--disabled': month.disabled },on:{"click":function($event){return _vm.$emit('change', month.date)}}},[_vm._v(" "+_vm._s(_vm.formatMonth(month.date))+" ")])])}),0)}),0)}
+var month_selectvue_type_template_id_493175e4_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/month-select.vue?vue&type=template&id=464ad58e&
+// CONCATENATED MODULE: ./src/components/month-select.vue?vue&type=template&id=493175e4&
 
 // CONCATENATED MODULE: ./node_modules/date-fns/esm/isSameMonth/index.js
 
@@ -9281,10 +9281,10 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
       var monthArray = [];
       var monthIndex = 0;
 
-      for (var row = 0; row < 3; row++) {
+      for (var row = 0; row < 4; row++) {
         var rowArray = [];
 
-        for (var cell = 0; cell < 4; cell++) {
+        for (var cell = 0; cell < 3; cell++) {
           var date = this.months[monthIndex];
           var monthObject = {
             date: date,
@@ -9331,8 +9331,8 @@ var month_selectvue_type_style_index_0_lang_scss_ = __webpack_require__("1011");
 
 var month_select_component = normalizeComponent(
   components_month_selectvue_type_script_lang_js_,
-  month_selectvue_type_template_id_464ad58e_render,
-  month_selectvue_type_template_id_464ad58e_staticRenderFns,
+  month_selectvue_type_template_id_493175e4_render,
+  month_selectvue_type_template_id_493175e4_staticRenderFns,
   false,
   null,
   null,
@@ -9591,7 +9591,6 @@ var month_select_component = normalizeComponent(
       }
 
       this.parentNodeElement.addEventListener('scroll', this.scrollThrottled);
-      console.log(this.$el, this.$el.children);
       this.tableHeight = this.$el.children[0].offsetHeight;
     },
     removeScrollListener: function removeScrollListener() {
